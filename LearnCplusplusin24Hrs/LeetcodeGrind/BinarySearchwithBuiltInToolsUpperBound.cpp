@@ -4,35 +4,26 @@
 
 #include <vector>
 #include <iostream>
+#include <algorithm>
+
 using namespace std;
 
 class Solution {
 public:
     int search(vector<int> &nums, int target) {
-        //set the left and right boundaries
-        int left = 0, right = (int) nums.size();
+        // Find the insertion point 'idx'
+        int idx = upper_bound(nums.begin(), nums.end(), target)  - nums.begin(); // So upper_bound returns and index, then you subtract nums.begin to get the absolute?
 
-        while (left < right) {
-            int mid = left + (right - left) / 2;
-
-            if (nums[mid] <= target) {
-                left = mid + 1;
-            } else {
-                right = mid;
-            }
-        }
-
-
-        if (left > 0 && nums[left - 1] == target) {
-            return left - 1;
-        } else {
-            return -1;
+        if (idx > 0 && nums[idx -1]==target){
+            return idx -1;
+        }else{
+        return -1;
         }
     }
 };
 
 int main() {
-    vector<int> nums = {-1, 0, 3, 5, 9, 9, 9, 12}; //Upper bound is 6 as printed by the program i.e. the highest index of 9
+    vector<int> nums = {-1, 0, 3, 5, 9, 9, 9, 12}; //Lower bound is 4 as printed by program i.e. the lowest index of 9 in the vecor
     int target = 9;
 
     // vector<int> nums = {-1, 0, 3, 5, 9, 12};

@@ -12,6 +12,10 @@ all: $(ASM_DIR)/BoxMaker.S $(EXEC_DIR)/BoxMaker $(ASM_DIR)/BoxMakerdemangled.S \
 	$(EXEC_DIR)/RectangleOverloading $(ASM_DIR)/RectangleOverloadingdemangled.S \
 	$(EXEC_DIR)/BinarySearchTraditional $(ASM_DIR)/BinarySearchTraditionaldemangled.S \
 	$(EXEC_DIR)/BinarySearchFindUpperBound $(ASM_DIR)/BinarySearchFindUpperBounddemangled.S \
+	$(EXEC_DIR)/BinarySearchFindLowerBound $(ASM_DIR)/BinarySearchFindLowerBounddemangled.S \
+	$(EXEC_DIR)/BinarySearchwithBuiltInToolsUpperBound $(ASM_DIR)/BinarySearchwithBuiltInToolsUpperBounddemangled.S \
+	$(EXEC_DIR)/69.Sqrtx $(ASM_DIR)/69.Sqrtxdemangled.S \
+	$(EXEC_DIR)/69.SqrtxRecursive $(ASM_DIR)/69.SqrtxRecursivedemangled.S \
 
 
 #The | symbol denotes an "order-only" dependency, meaning the directory needs to exist before the target is built,
@@ -22,6 +26,8 @@ all: $(ASM_DIR)/BoxMaker.S $(EXEC_DIR)/BoxMaker $(ASM_DIR)/BoxMakerdemangled.S \
 
 #The $@ in the compile commands refer to the target file name
 
+
+#Assembly PART
 $(ASM_DIR)/BoxMaker.S: BoxMaker.cpp | $(ASM_DIR)
 	g++ -S \
 	-O0	\
@@ -71,6 +77,35 @@ $(ASM_DIR)/BinarySearchFindUpperBound.S: LeetcodeGrind/BinarySearchFindUpperBoun
 	-o $@
 
 
+$(ASM_DIR)/BinarySearchFindLowerBound.S: LeetcodeGrind/BinarySearchFindLowerBound.cpp | $(ASM_DIR)
+	g++ -S \
+	-O0	\
+	BoxMaker.cpp \
+	-o $@
+
+
+$(ASM_DIR)/BinarySearchwithBuiltInToolsUpperBound.S: LeetcodeGrind/BinarySearchwithBuiltInToolsUpperBound.cpp | $(ASM_DIR)
+	g++ -S \
+	-O0	\
+	BoxMaker.cpp \
+	-o $@
+
+
+$(ASM_DIR)/69.Sqrtx.S: LeetcodeGrind/69.Sqrtx.cpp | $(ASM_DIR)
+	g++ -S \
+	-O0	\
+	BoxMaker.cpp \
+	-o $@
+
+
+$(ASM_DIR)/69.SqrtxRecursive.S: LeetcodeGrind/69.SqrtxRecursive.cpp | $(ASM_DIR)
+	g++ -S \
+	-O0	\
+	BoxMaker.cpp \
+	-o $@
+
+#Demangled PART
+
 # $< means the first prerequisite of the current rule (it means “the first thing after the colon in the target line”).
 # Target: output.o Prerequisites: source.cpp (first), header.h (second). $< → source.cpp. $@ → output.o
 $(ASM_DIR)/BoxMakerdemangled.S: $(ASM_DIR)/BoxMaker.S
@@ -98,7 +133,21 @@ $(ASM_DIR)/BinarySearchTraditionaldemangled.S: $(ASM_DIR)/BinarySearchTraditiona
 $(ASM_DIR)/BinarySearchFindUpperBounddemangled.S: $(ASM_DIR)/BinarySearchFindUpperBound.S
 	c++filt < $< > $@
 
+$(ASM_DIR)/BinarySearchFindLowerBounddemangled.S: $(ASM_DIR)/BinarySearchFindLowerBound.S
+	c++filt < $< > $@
 
+$(ASM_DIR)/BinarySearchwithBuiltInToolsUpperBounddemangled.S: $(ASM_DIR)/BinarySearchwithBuiltInToolsUpperBound.S
+	c++filt < $< > $@
+
+$(ASM_DIR)/69.Sqrtxdemangled.S: $(ASM_DIR)/69.Sqrtx.S
+	c++filt < $< > $@
+	c++filt < $< > $@
+
+$(ASM_DIR)/69.SqrtxRecursivedemangled.S: $(ASM_DIR)/69.SqrtxRecursive.S
+	c++filt < $< > $@
+
+
+# Executable PART
 #----------------------------
 
 $(EXEC_DIR)/BoxMaker: BoxMaker.cpp | $(EXEC_DIR)
@@ -126,9 +175,31 @@ $(EXEC_DIR)/BinarySearchFindUpperBound: LeetcodeGrind/BinarySearchFindUpperBound
 	g++ -g $< -o $@
 
 
-#----------------------------------------------------------------------------------------------------------------------------------------------
+$(EXEC_DIR)/BinarySearchFindLowerBound: LeetcodeGrind/BinarySearchFindLowerBound.cpp | $(EXEC_DIR)
+	g++ -g $< -o $@
+
+
+$(EXEC_DIR)/BinarySearchwithBuiltInToolsUpperBound: LeetcodeGrind/BinarySearchwithBuiltInToolsUpperBound.cpp | $(EXEC_DIR)
+	g++ -g $< -o $@
+
+
+$(EXEC_DIR)/69.Sqrtx: LeetcodeGrind/69.Sqrtx.cpp | $(EXEC_DIR)
+	g++ -g $< -o $@
+
+
+$(EXEC_DIR)/69.SqrtxRecursive: LeetcodeGrind/69.SqrtxRecursive.cpp | $(EXEC_DIR)
+	g++ -g $< -o $@
+
+
+
+# Directory PART
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+# Create the two directories i.e. Assembly and Exec directories
 $(ASM_DIR) $(EXEC_DIR):
 	mkdir -p $@
+
+# Cleaning PART
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 FILES_TO_CLEAN = $(ASM_DIR)/BoxMaker.S $(EXEC_DIR)/BoxMaker $(ASM_DIR)/BoxMakerdemangled.S \
 					$(ASM_DIR)/TricycleClassOOP.S $(EXEC_DIR)/TricycleClassOOP $(ASM_DIR)/TricycleClassOOPdemangled.S \
@@ -138,6 +209,10 @@ FILES_TO_CLEAN = $(ASM_DIR)/BoxMaker.S $(EXEC_DIR)/BoxMaker $(ASM_DIR)/BoxMakerd
 					$(ASM_DIR)/RectangleOverloading.S $(EXEC_DIR)/RectangleOverloading $(ASM_DIR)/RectangleOverloadingdemangled.S \
 					$(ASM_DIR)/BinarySearchTraditional.S $(EXEC_DIR)/BinarySearchTraditional $(ASM_DIR)/BinarySearchTraditionaldemangled.S \
 					$(ASM_DIR)/BinarySearchFindUpperBound.S $(EXEC_DIR)/BinarySearchFindUpperBound $(ASM_DIR)/BinarySearchFindUpperBounddemangled.S \
+					$(ASM_DIR)/BinarySearchFindLowerBound.S $(EXEC_DIR)/BinarySearchFindLowerBound $(ASM_DIR)/BinarySearchFindLowerBounddemangled.S \
+					$(ASM_DIR)/BinarySearchwithBuiltInToolsUpperBound.S $(EXEC_DIR)/BinarySearchwithBuiltInToolsUpperBound $(ASM_DIR)/BinarySearchwithBuiltInToolsUpperBounddemangled.S \
+					$(ASM_DIR)/69.Sqrtx.S $(EXEC_DIR)/69.Sqrtx $(ASM_DIR)/69.Sqrtxdemangled.S \
+					$(ASM_DIR)/69.SqrtxRecursive.S $(EXEC_DIR)/69.SqrtxRecursive $(ASM_DIR)/69.SqrtxRecursivedemangled.S \
 
 # Also, consider adding a .PHONY directive for the clean target to prevent potential issues if a file named clean exists in your directory
 .PHONY: clean
