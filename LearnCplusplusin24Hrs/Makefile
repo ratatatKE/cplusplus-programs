@@ -16,6 +16,7 @@ all: $(ASM_DIR)/BoxMaker.S $(EXEC_DIR)/BoxMaker $(ASM_DIR)/BoxMakerdemangled.S \
 	$(EXEC_DIR)/BinarySearchwithBuiltInToolsUpperBound $(ASM_DIR)/BinarySearchwithBuiltInToolsUpperBounddemangled.S \
 	$(EXEC_DIR)/69.Sqrtx $(ASM_DIR)/69.Sqrtxdemangled.S \
 	$(EXEC_DIR)/69.SqrtxRecursive $(ASM_DIR)/69.SqrtxRecursivedemangled.S \
+	$(EXEC_DIR)/374.GuessNumberHigherOrLower $(ASM_DIR)/374.GuessNumberHigherOrLowerdemangled.S \
 
 
 #The | symbol denotes an "order-only" dependency, meaning the directory needs to exist before the target is built,
@@ -64,41 +65,49 @@ $(ASM_DIR)/RectangleOverloading.S: RectangleOverloading.cpp | $(ASM_DIR)
 	BoxMaker.cpp \
 	-o $@
 
-$(ASM_DIR)/BinarySearchTraditional.S: LeetcodeGrind/BinarySearchTraditional.cpp | $(ASM_DIR)
+$(ASM_DIR)/BinarySearchTraditional.S: LeetcodeGrind/BinarySearch/BinarySearchTraditional.cpp | $(ASM_DIR)
 	g++ -S \
 	-O0	\
 	BoxMaker.cpp \
 	-o $@
 
-$(ASM_DIR)/BinarySearchFindUpperBound.S: LeetcodeGrind/BinarySearchFindUpperBound.cpp | $(ASM_DIR)
-	g++ -S \
-	-O0	\
-	BoxMaker.cpp \
-	-o $@
-
-
-$(ASM_DIR)/BinarySearchFindLowerBound.S: LeetcodeGrind/BinarySearchFindLowerBound.cpp | $(ASM_DIR)
+$(ASM_DIR)/BinarySearchFindUpperBound.S: LeetcodeGrind/BinarySearch/BinarySearchFindUpperBound.cpp | $(ASM_DIR)
 	g++ -S \
 	-O0	\
 	BoxMaker.cpp \
 	-o $@
 
 
-$(ASM_DIR)/BinarySearchwithBuiltInToolsUpperBound.S: LeetcodeGrind/BinarySearchwithBuiltInToolsUpperBound.cpp | $(ASM_DIR)
+$(ASM_DIR)/BinarySearchFindLowerBound.S: LeetcodeGrind/BinarySearch/BinarySearchFindLowerBound.cpp | $(ASM_DIR)
 	g++ -S \
 	-O0	\
 	BoxMaker.cpp \
 	-o $@
 
 
-$(ASM_DIR)/69.Sqrtx.S: LeetcodeGrind/69.Sqrtx.cpp | $(ASM_DIR)
+$(ASM_DIR)/BinarySearchwithBuiltInToolsUpperBound.S: LeetcodeGrind/BinarySearch/BinarySearchwithBuiltInToolsUpperBound.cpp | $(ASM_DIR)
 	g++ -S \
 	-O0	\
 	BoxMaker.cpp \
 	-o $@
 
 
-$(ASM_DIR)/69.SqrtxRecursive.S: LeetcodeGrind/69.SqrtxRecursive.cpp | $(ASM_DIR)
+$(ASM_DIR)/69.Sqrtx.S: LeetcodeGrind/BinarySearch/69.Sqrtx.cpp | $(ASM_DIR)
+	g++ -S \
+	-O0	\
+	BoxMaker.cpp \
+	-o $@
+
+
+$(ASM_DIR)/69.SqrtxRecursive.S: LeetcodeGrind/BinarySearch/69.SqrtxRecursive.cpp | $(ASM_DIR)
+	g++ -S \
+	-O0	\
+	BoxMaker.cpp \
+	-o $@
+	-o $@
+
+
+$(ASM_DIR)/374.GuessNumberHigherOrLower.S: LeetcodeGrind/BinarySearch/374.GuessNumberHigherOrLower.cpp | $(ASM_DIR)
 	g++ -S \
 	-O0	\
 	BoxMaker.cpp \
@@ -145,6 +154,10 @@ $(ASM_DIR)/69.Sqrtxdemangled.S: $(ASM_DIR)/69.Sqrtx.S
 
 $(ASM_DIR)/69.SqrtxRecursivedemangled.S: $(ASM_DIR)/69.SqrtxRecursive.S
 	c++filt < $< > $@
+	c++filt < $< > $@
+
+$(ASM_DIR)/374.GuessNumberHigherOrLowerdemangled.S: $(ASM_DIR)/374.GuessNumberHigherOrLower.S
+	c++filt < $< > $@
 
 
 # Executable PART
@@ -168,26 +181,30 @@ $(EXEC_DIR)/Rectangle: Rectangle.cpp | $(EXEC_DIR)
 $(EXEC_DIR)/RectangleOverloading: RectangleOverloading.cpp | $(EXEC_DIR)
 	g++ -g $< -o $@
 
-$(EXEC_DIR)/BinarySearchTraditional: LeetcodeGrind/BinarySearchTraditional.cpp | $(EXEC_DIR)
+$(EXEC_DIR)/BinarySearchTraditional: LeetcodeGrind/BinarySearch/BinarySearchTraditional.cpp | $(EXEC_DIR)
 	g++ -g $< -o $@
 
-$(EXEC_DIR)/BinarySearchFindUpperBound: LeetcodeGrind/BinarySearchFindUpperBound.cpp | $(EXEC_DIR)
-	g++ -g $< -o $@
-
-
-$(EXEC_DIR)/BinarySearchFindLowerBound: LeetcodeGrind/BinarySearchFindLowerBound.cpp | $(EXEC_DIR)
+$(EXEC_DIR)/BinarySearchFindUpperBound: LeetcodeGrind/BinarySearch/BinarySearchFindUpperBound.cpp | $(EXEC_DIR)
 	g++ -g $< -o $@
 
 
-$(EXEC_DIR)/BinarySearchwithBuiltInToolsUpperBound: LeetcodeGrind/BinarySearchwithBuiltInToolsUpperBound.cpp | $(EXEC_DIR)
+$(EXEC_DIR)/BinarySearchFindLowerBound: LeetcodeGrind/BinarySearch/BinarySearchFindLowerBound.cpp | $(EXEC_DIR)
 	g++ -g $< -o $@
 
 
-$(EXEC_DIR)/69.Sqrtx: LeetcodeGrind/69.Sqrtx.cpp | $(EXEC_DIR)
+$(EXEC_DIR)/BinarySearchwithBuiltInToolsUpperBound: LeetcodeGrind/BinarySearch/BinarySearchwithBuiltInToolsUpperBound.cpp | $(EXEC_DIR)
 	g++ -g $< -o $@
 
 
-$(EXEC_DIR)/69.SqrtxRecursive: LeetcodeGrind/69.SqrtxRecursive.cpp | $(EXEC_DIR)
+$(EXEC_DIR)/69.Sqrtx: LeetcodeGrind/BinarySearch/69.Sqrtx.cpp | $(EXEC_DIR)
+	g++ -g $< -o $@
+
+
+$(EXEC_DIR)/69.SqrtxRecursive: LeetcodeGrind/BinarySearch/69.SqrtxRecursive.cpp | $(EXEC_DIR)
+	g++ -g $< -o $@
+
+
+$(EXEC_DIR)/374.GuessNumberHigherOrLower: LeetcodeGrind/BinarySearch/374.GuessNumberHigherOrLower.cpp | $(EXEC_DIR)
 	g++ -g $< -o $@
 
 
@@ -213,6 +230,7 @@ FILES_TO_CLEAN = $(ASM_DIR)/BoxMaker.S $(EXEC_DIR)/BoxMaker $(ASM_DIR)/BoxMakerd
 					$(ASM_DIR)/BinarySearchwithBuiltInToolsUpperBound.S $(EXEC_DIR)/BinarySearchwithBuiltInToolsUpperBound $(ASM_DIR)/BinarySearchwithBuiltInToolsUpperBounddemangled.S \
 					$(ASM_DIR)/69.Sqrtx.S $(EXEC_DIR)/69.Sqrtx $(ASM_DIR)/69.Sqrtxdemangled.S \
 					$(ASM_DIR)/69.SqrtxRecursive.S $(EXEC_DIR)/69.SqrtxRecursive $(ASM_DIR)/69.SqrtxRecursivedemangled.S \
+					$(ASM_DIR)/374.GuessNumberHigherOrLower.S $(EXEC_DIR)/374.GuessNumberHigherOrLower $(ASM_DIR)/374.GuessNumberHigherOrLower.S \
 
 # Also, consider adding a .PHONY directive for the clean target to prevent potential issues if a file named clean exists in your directory
 .PHONY: clean

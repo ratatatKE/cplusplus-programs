@@ -20,7 +20,7 @@ public:
             int mid = -1; // Mid is invalid to start with.
 
             //Perform binary search to find the square root of x
-            while(left <= right){ //In binary search we always use < or >. The only reason we are using <= i.e. or equal to is because the end/righ will become the integer value of the square root once the loop completes
+            while(left <= right){ //In binary search we always use < or >. The only reason we are using <= i.e. or equal to is because the end/right will become the integer value of the square root once the loop completes
                 //Calculate the middle point using "start + (end -start)/2" to avoid integer overflow
                 mid = left + (right - left)/2;
 

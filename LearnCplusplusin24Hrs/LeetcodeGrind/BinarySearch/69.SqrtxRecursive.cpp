@@ -19,7 +19,7 @@ public:
         {
             return x;
         }
-        //if not x returned, then call the recursion
+        // if not x returned, then call the recursion
         return recursiveSqrt(left, right, x);
     }
 
@@ -28,29 +28,38 @@ private:
     {
         // We have to calculate mid and square afresh every time we enter into the recursion
         int mid = left + (right - left) / 2;
-        long long square = mid * mid; // Long long to handle large numbers
+        long long square = (mid) * mid; // Long long to handle large numbers
 
         if (left > right)
         {
             // Break out of the loop since there will be no solution
-            // return right; // The right will be the square root at this point imagine.
-            //We could have returned -1 to mean there is no solution but imagine with a squareroot problem there will always be asolution so we just return right.
-            return -1;// I think the returning -1 is the right approach and fits with our philosphy in recursion
+            /*
+            We repeat step 4 to 8 until the left pointer becomes greater than the right pointer.
+            At this point, we have found the floor value of the square root and the right pointer holds
+            the value.
+            */
+            return right;
         }
         else if (square > target)
         {
             right = mid - 1; // the square root lies in the lower half
-            recursiveSqrt(left, right, target);
+            return recursiveSqrt(left, right, target);
         }
         else if (square < target)
         {
             left = mid + 1; // the square root lies in the upper half;
-            recursiveSqrt(left, right, target);
+            return recursiveSqrt(left, right, target);
         }
+        else if (square == target)
+        {
+            return mid; // Hurrah!, we have found the square root.
+        }
+        else
+        {
 
-        // otherwise i.e. after we have gone through all the conditions, then return mid since it will be our solution
-        // returning mid here also covers for the case where square == target.
-        return mid;
+            // otherwise i.e. after we have gone through all the conditions, return -1 since there's no solution
+            return -1;
+        }
     }
 };
 
