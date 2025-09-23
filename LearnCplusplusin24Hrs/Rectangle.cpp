@@ -5,7 +5,7 @@
 #include "Rectangle.hpp"
 
 #include <iostream>
-#include <bits/ostream.tcc>
+// #include <bits/ostream.tcc>
 
 //let us define the constructor
 

@@ -31,77 +31,77 @@ all: $(ASM_DIR)/BoxMaker.S $(EXEC_DIR)/BoxMaker $(ASM_DIR)/BoxMakerdemangled.S \
 
 #Assembly PART
 $(ASM_DIR)/BoxMaker.S: BoxMaker.cpp | $(ASM_DIR)
-	g++ -S \
+	g++ -std=c++11  -S \
 	-O0	\
 	BoxMaker.cpp \
 	-o $@
 
 $(ASM_DIR)/TricycleClassOOP.S: TricycleClassOOP.cpp | $(ASM_DIR)
-	g++ -S \
+	g++ -std=c++11  -S \
 	-O0	\
 	BoxMaker.cpp \
 	-o $@
 
 $(ASM_DIR)/NewTricycle.S: NewTricycle.cpp | $(ASM_DIR)
-	g++ -S \
+	g++ -std=c++11  -S \
 	-O0	\
 	BoxMaker.cpp \
 	-o $@
 
 $(ASM_DIR)/Tricycle.S: Tricycle.cpp | $(ASM_DIR)
-	g++ -S \
+	g++ -std=c++11  -S \
 	-O0	\
 	BoxMaker.cpp \
 	-o $@
 
 $(ASM_DIR)/Rectangle.S: Rectangle.cpp | $(ASM_DIR)
-	g++ -S \
+	g++ -std=c++11  -S \
 	-O0	\
 	BoxMaker.cpp \
 	-o $@
 
 $(ASM_DIR)/RectangleOverloading.S: RectangleOverloading.cpp | $(ASM_DIR)
-	g++ -S \
+	g++ -std=c++11  -S \
 	-O0	\
 	BoxMaker.cpp \
 	-o $@
 
 $(ASM_DIR)/BinarySearchTraditional.S: LeetcodeGrind/BinarySearch/BinarySearchTraditional.cpp | $(ASM_DIR)
-	g++ -S \
+	g++ -std=c++11  -S \
 	-O0	\
 	BoxMaker.cpp \
 	-o $@
 
 $(ASM_DIR)/BinarySearchFindUpperBound.S: LeetcodeGrind/BinarySearch/BinarySearchFindUpperBound.cpp | $(ASM_DIR)
-	g++ -S \
+	g++ -std=c++11  -S \
 	-O0	\
 	BoxMaker.cpp \
 	-o $@
 
 
 $(ASM_DIR)/BinarySearchFindLowerBound.S: LeetcodeGrind/BinarySearch/BinarySearchFindLowerBound.cpp | $(ASM_DIR)
-	g++ -S \
+	g++ -std=c++11  -S \
 	-O0	\
 	BoxMaker.cpp \
 	-o $@
 
 
 $(ASM_DIR)/BinarySearchwithBuiltInToolsUpperBound.S: LeetcodeGrind/BinarySearch/BinarySearchwithBuiltInToolsUpperBound.cpp | $(ASM_DIR)
-	g++ -S \
+	g++ -std=c++11  -S \
 	-O0	\
 	BoxMaker.cpp \
 	-o $@
 
 
 $(ASM_DIR)/69.Sqrtx.S: LeetcodeGrind/BinarySearch/69.Sqrtx.cpp | $(ASM_DIR)
-	g++ -S \
+	g++ -std=c++11  -S \
 	-O0	\
 	BoxMaker.cpp \
 	-o $@
 
 
 $(ASM_DIR)/69.SqrtxRecursive.S: LeetcodeGrind/BinarySearch/69.SqrtxRecursive.cpp | $(ASM_DIR)
-	g++ -S \
+	g++ -std=c++11  -S \
 	-O0	\
 	BoxMaker.cpp \
 	-o $@
@@ -109,7 +109,7 @@ $(ASM_DIR)/69.SqrtxRecursive.S: LeetcodeGrind/BinarySearch/69.SqrtxRecursive.cpp
 
 
 $(ASM_DIR)/374.GuessNumberHigherOrLower.S: LeetcodeGrind/BinarySearch/374.GuessNumberHigherOrLower.cpp | $(ASM_DIR)
-	g++ -S \
+	g++ -std=c++11  -S \
 	-O0	\
 	BoxMaker.cpp \
 	-o $@
@@ -172,48 +172,48 @@ BinarySearchVariationsTheoryBoundaryVsExactMatchdemangled.S: $(ASM_DIR)/BinarySe
 #----------------------------
 
 $(EXEC_DIR)/BoxMaker: BoxMaker.cpp | $(EXEC_DIR)
-	g++ -g $< -o $@
+	g++ -std=c++11  -g $< -o $@
 
 $(EXEC_DIR)/TricycleClassOOP: TricycleClassOOP.cpp | $(EXEC_DIR)
-	g++ -g $< -o $@
+	g++ -std=c++11  -g $< -o $@
 
 $(EXEC_DIR)/NewTricycle: NewTricycle.cpp | $(EXEC_DIR)
-	g++ -g $< -o $@
+	g++ -std=c++11  -g $< -o $@
 
 $(EXEC_DIR)/Tricycle: Tricycle.cpp | $(EXEC_DIR)
-	g++ -g $< -o $@
+	g++ -std=c++11  -g $< -o $@
 
 $(EXEC_DIR)/Rectangle: Rectangle.cpp | $(EXEC_DIR)
-	g++ -g $< -o $@
+	g++ -std=c++11  -g $< -o $@
 
 $(EXEC_DIR)/RectangleOverloading: RectangleOverloading.cpp | $(EXEC_DIR)
-	g++ -g $< -o $@
+	g++ -std=c++11  -g $< -o $@
 
 $(EXEC_DIR)/BinarySearchTraditional: LeetcodeGrind/BinarySearch/BinarySearchTraditional.cpp | $(EXEC_DIR)
-	g++ -g $< -o $@
+	g++ -std=c++11  -g $< -o $@
 
 $(EXEC_DIR)/BinarySearchFindUpperBound: LeetcodeGrind/BinarySearch/BinarySearchFindUpperBound.cpp | $(EXEC_DIR)
-	g++ -g $< -o $@
+	g++ -std=c++11  -g $< -o $@
 
 
 $(EXEC_DIR)/BinarySearchFindLowerBound: LeetcodeGrind/BinarySearch/BinarySearchFindLowerBound.cpp | $(EXEC_DIR)
-	g++ -g $< -o $@
+	g++ -std=c++11  -g $< -o $@
 
 
 $(EXEC_DIR)/BinarySearchwithBuiltInToolsUpperBound: LeetcodeGrind/BinarySearch/BinarySearchwithBuiltInToolsUpperBound.cpp | $(EXEC_DIR)
-	g++ -g $< -o $@
+	g++ -std=c++11  -g $< -o $@
 
 
 $(EXEC_DIR)/69.Sqrtx: LeetcodeGrind/BinarySearch/69.Sqrtx.cpp | $(EXEC_DIR)
-	g++ -g $< -o $@
+	g++ -std=c++11  -g $< -o $@
 
 
 $(EXEC_DIR)/69.SqrtxRecursive: LeetcodeGrind/BinarySearch/69.SqrtxRecursive.cpp | $(EXEC_DIR)
-	g++ -g $< -o $@
+	g++ -std=c++11  -g $< -o $@
 
 
 $(EXEC_DIR)/374.GuessNumberHigherOrLower: LeetcodeGrind/BinarySearch/374.GuessNumberHigherOrLower.cpp | $(EXEC_DIR)
-	g++ -g $< -o $@
+	g++ -std=c++11  -g $< -o $@
 
 
 $(EXEC_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch: LeetcodeGrind/BinarySearch/BinarySearchVariationsTheoryBoundaryVsExactMatch.cpp | $(EXEC_DIR)
