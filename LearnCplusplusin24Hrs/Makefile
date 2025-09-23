@@ -17,6 +17,7 @@ all: $(ASM_DIR)/BoxMaker.S $(EXEC_DIR)/BoxMaker $(ASM_DIR)/BoxMakerdemangled.S \
 	$(EXEC_DIR)/69.Sqrtx $(ASM_DIR)/69.Sqrtxdemangled.S \
 	$(EXEC_DIR)/69.SqrtxRecursive $(ASM_DIR)/69.SqrtxRecursivedemangled.S \
 	$(EXEC_DIR)/374.GuessNumberHigherOrLower $(ASM_DIR)/374.GuessNumberHigherOrLowerdemangled.S \
+	$(EXEC_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch $(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch.S \
 
 
 #The | symbol denotes an "order-only" dependency, meaning the directory needs to exist before the target is built,
@@ -113,6 +114,13 @@ $(ASM_DIR)/374.GuessNumberHigherOrLower.S: LeetcodeGrind/BinarySearch/374.GuessN
 	BoxMaker.cpp \
 	-o $@
 
+
+$(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch.S: LeetcodeGrind/BinarySearch/BinarySearchVariationsTheoryBoundaryVsExactMatch.cpp | $(ASM_DIR)
+	g++ -S \
+	-O0	\
+	BoxMaker.cpp \
+	-o $@
+
 #Demangled PART
 
 # $< means the first prerequisite of the current rule (it means “the first thing after the colon in the target line”).
@@ -138,7 +146,6 @@ $(ASM_DIR)/RectangleOverloadingdemangled.S: $(ASM_DIR)/RectangleOverloading.S
 $(ASM_DIR)/BinarySearchTraditionaldemangled.S: $(ASM_DIR)/BinarySearchTraditional.S
 	c++filt < $< > $@
 
-
 $(ASM_DIR)/BinarySearchFindUpperBounddemangled.S: $(ASM_DIR)/BinarySearchFindUpperBound.S
 	c++filt < $< > $@
 
@@ -150,13 +157,14 @@ $(ASM_DIR)/BinarySearchwithBuiltInToolsUpperBounddemangled.S: $(ASM_DIR)/BinaryS
 
 $(ASM_DIR)/69.Sqrtxdemangled.S: $(ASM_DIR)/69.Sqrtx.S
 	c++filt < $< > $@
-	c++filt < $< > $@
 
 $(ASM_DIR)/69.SqrtxRecursivedemangled.S: $(ASM_DIR)/69.SqrtxRecursive.S
 	c++filt < $< > $@
-	c++filt < $< > $@
 
 $(ASM_DIR)/374.GuessNumberHigherOrLowerdemangled.S: $(ASM_DIR)/374.GuessNumberHigherOrLower.S
+	c++filt < $< > $@
+
+BinarySearchVariationsTheoryBoundaryVsExactMatchdemangled.S: $(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch.S
 	c++filt < $< > $@
 
 
@@ -208,6 +216,10 @@ $(EXEC_DIR)/374.GuessNumberHigherOrLower: LeetcodeGrind/BinarySearch/374.GuessNu
 	g++ -g $< -o $@
 
 
+$(EXEC_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch: LeetcodeGrind/BinarySearch/BinarySearchVariationsTheoryBoundaryVsExactMatch.cpp | $(EXEC_DIR)
+	g++ -g $< -o $@
+
+
 
 # Directory PART
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -231,6 +243,7 @@ FILES_TO_CLEAN = $(ASM_DIR)/BoxMaker.S $(EXEC_DIR)/BoxMaker $(ASM_DIR)/BoxMakerd
 					$(ASM_DIR)/69.Sqrtx.S $(EXEC_DIR)/69.Sqrtx $(ASM_DIR)/69.Sqrtxdemangled.S \
 					$(ASM_DIR)/69.SqrtxRecursive.S $(EXEC_DIR)/69.SqrtxRecursive $(ASM_DIR)/69.SqrtxRecursivedemangled.S \
 					$(ASM_DIR)/374.GuessNumberHigherOrLower.S $(EXEC_DIR)/374.GuessNumberHigherOrLower $(ASM_DIR)/374.GuessNumberHigherOrLower.S \
+					$(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch.S $(EXEC_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch $(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch.S \
 
 # Also, consider adding a .PHONY directive for the clean target to prevent potential issues if a file named clean exists in your directory
 .PHONY: clean
