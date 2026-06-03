@@ -1,23 +1,25 @@
 EXEC_DIR = Execs
 ASM_DIR = Assembly
+FILES = $(ASM_DIR)/BoxMaker.S $(EXEC_DIR)/BoxMaker $(ASM_DIR)/BoxMakerdemangled.S \
+		$(EXEC_DIR)/TricycleClassOOP $(ASM_DIR)/TricycleClassOOPdemangled.S \
+		$(EXEC_DIR)/NewTricycle $(ASM_DIR)/NewTricycledemangled.S \
+		$(EXEC_DIR)/Tricycle $(ASM_DIR)/Tricycledemangled.S \
+		$(EXEC_DIR)/Rectangle $(ASM_DIR)/Rectangledemangled.S \
+		$(EXEC_DIR)/RectangleOverloading $(ASM_DIR)/RectangleOverloadingdemangled.S \
+		$(EXEC_DIR)/BinarySearchTraditional $(ASM_DIR)/BinarySearchTraditionaldemangled.S \
+		$(EXEC_DIR)/BinarySearchFindUpperBound $(ASM_DIR)/BinarySearchFindUpperBounddemangled.S \
+		$(EXEC_DIR)/BinarySearchFindLowerBound $(ASM_DIR)/BinarySearchFindLowerBounddemangled.S \
+		$(EXEC_DIR)/BinarySearchwithBuiltInToolsUpperBound $(ASM_DIR)/BinarySearchwithBuiltInToolsUpperBounddemangled.S \
+		$(EXEC_DIR)/69.Sqrtx $(ASM_DIR)/69.Sqrtxdemangled.S \
+		$(EXEC_DIR)/69.SqrtxRecursive $(ASM_DIR)/69.SqrtxRecursivedemangled.S \
+		$(EXEC_DIR)/633.SumofSquareNumbers $(ASM_DIR)/633.SumofSquareNumbersdemangled.S \
+		$(EXEC_DIR)/374.GuessNumberHigherOrLower $(ASM_DIR)/374.GuessNumberHigherOrLowerdemangled.S \
+		$(EXEC_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch $(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch.S \
 
 # The .DELETE_ON_ERROR: target tells Make to delete the target files if the recipe fails ensuring that we don't end up with partial or corrupted files
 .DELETE_ON_ERROR:
 
-all: $(ASM_DIR)/BoxMaker.S $(EXEC_DIR)/BoxMaker $(ASM_DIR)/BoxMakerdemangled.S \
-	$(EXEC_DIR)/TricycleClassOOP $(ASM_DIR)/TricycleClassOOPdemangled.S \
-	$(EXEC_DIR)/NewTricycle $(ASM_DIR)/NewTricycledemangled.S \
-	$(EXEC_DIR)/Tricycle $(ASM_DIR)/Tricycledemangled.S \
-	$(EXEC_DIR)/Rectangle $(ASM_DIR)/Rectangledemangled.S \
-	$(EXEC_DIR)/RectangleOverloading $(ASM_DIR)/RectangleOverloadingdemangled.S \
-	$(EXEC_DIR)/BinarySearchTraditional $(ASM_DIR)/BinarySearchTraditionaldemangled.S \
-	$(EXEC_DIR)/BinarySearchFindUpperBound $(ASM_DIR)/BinarySearchFindUpperBounddemangled.S \
-	$(EXEC_DIR)/BinarySearchFindLowerBound $(ASM_DIR)/BinarySearchFindLowerBounddemangled.S \
-	$(EXEC_DIR)/BinarySearchwithBuiltInToolsUpperBound $(ASM_DIR)/BinarySearchwithBuiltInToolsUpperBounddemangled.S \
-	$(EXEC_DIR)/69.Sqrtx $(ASM_DIR)/69.Sqrtxdemangled.S \
-	$(EXEC_DIR)/69.SqrtxRecursive $(ASM_DIR)/69.SqrtxRecursivedemangled.S \
-	$(EXEC_DIR)/374.GuessNumberHigherOrLower $(ASM_DIR)/374.GuessNumberHigherOrLowerdemangled.S \
-	$(EXEC_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch $(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch.S \
+all: $(FILES)
 
 
 #The | symbol denotes an "order-only" dependency, meaning the directory needs to exist before the target is built,
@@ -99,6 +101,12 @@ $(ASM_DIR)/69.Sqrtx.S: LeetcodeGrind/BinarySearch/69.Sqrtx.cpp | $(ASM_DIR)
 	BoxMaker.cpp \
 	-o $@
 
+$(ASM_DIR)/633.SumofSquareNumbers.S: LeetcodeGrind/BinarySearch/633.SumofSquareNumbers.cpp | $(ASM_DIR)
+	g++ -std=c++11  -S \
+	-O0	\
+	BoxMaker.cpp \
+	-o $@
+
 
 $(ASM_DIR)/69.SqrtxRecursive.S: LeetcodeGrind/BinarySearch/69.SqrtxRecursive.cpp | $(ASM_DIR)
 	g++ -std=c++11  -S \
@@ -161,6 +169,9 @@ $(ASM_DIR)/69.Sqrtxdemangled.S: $(ASM_DIR)/69.Sqrtx.S
 $(ASM_DIR)/69.SqrtxRecursivedemangled.S: $(ASM_DIR)/69.SqrtxRecursive.S
 	c++filt < $< > $@
 
+$(ASM_DIR)/633.SumofSquareNumbersdemangled.S: $(ASM_DIR)/633.SumofSquareNumbers.S
+	c++filt < $< > $@
+
 $(ASM_DIR)/374.GuessNumberHigherOrLowerdemangled.S: $(ASM_DIR)/374.GuessNumberHigherOrLower.S
 	c++filt < $< > $@
 
@@ -212,6 +223,10 @@ $(EXEC_DIR)/69.SqrtxRecursive: LeetcodeGrind/BinarySearch/69.SqrtxRecursive.cpp 
 	g++ -std=c++11  -g $< -o $@
 
 
+$(EXEC_DIR)/633.SumofSquareNumbers: LeetcodeGrind/BinarySearch/633.SumofSquareNumbers.cpp | $(EXEC_DIR)
+	g++ -std=c++11  -g $< -o $@
+
+
 $(EXEC_DIR)/374.GuessNumberHigherOrLower: LeetcodeGrind/BinarySearch/374.GuessNumberHigherOrLower.cpp | $(EXEC_DIR)
 	g++ -std=c++11  -g $< -o $@
 
@@ -242,6 +257,7 @@ FILES_TO_CLEAN = $(ASM_DIR)/BoxMaker.S $(EXEC_DIR)/BoxMaker $(ASM_DIR)/BoxMakerd
 					$(ASM_DIR)/BinarySearchwithBuiltInToolsUpperBound.S $(EXEC_DIR)/BinarySearchwithBuiltInToolsUpperBound $(ASM_DIR)/BinarySearchwithBuiltInToolsUpperBounddemangled.S \
 					$(ASM_DIR)/69.Sqrtx.S $(EXEC_DIR)/69.Sqrtx $(ASM_DIR)/69.Sqrtxdemangled.S \
 					$(ASM_DIR)/69.SqrtxRecursive.S $(EXEC_DIR)/69.SqrtxRecursive $(ASM_DIR)/69.SqrtxRecursivedemangled.S \
+					$(ASM_DIR)/633.SumofSquareNumbers.S $(EXEC_DIR)/633.SumofSquareNumbers $(ASM_DIR)/633.SumofSquareNumbersdemangled.S \
 					$(ASM_DIR)/374.GuessNumberHigherOrLower.S $(EXEC_DIR)/374.GuessNumberHigherOrLower $(ASM_DIR)/374.GuessNumberHigherOrLower.S \
 					$(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch.S $(EXEC_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch $(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch.S \
 

@@ -17,7 +17,7 @@ public:
 
             if (nums[mid] >= target) {
                 right = mid;
-            }else {
+            }else { //i.e. nums[mid] < target, so move the left to mid + 1 coz the mid is less than target anyway and hence irrelevant.
                 left = mid + 1;
             }
         }
@@ -44,3 +44,31 @@ int main() {
     }
     std::cout << "Index of solution is " << sol.search(nums, target) << std::endl;
 }
+
+/*
+
+
+Für die Speicherung von Bäumrn können wir dock wieder Listen verwenden, solange wir listen als Listenelemente zulassen.
+Dabei speichern wir immer im ersten Element einer Liste den aktuellen Knoten; alle weiteren Listenelemente sind die Kinder.
+Der Baum für den arithmetischen Ausdruck 1*2+3/4 wäre dann:
+
+
+
+                    +
+            *                   /
+        1       2           3       4
+
+Und dieses in Python Code ist:
+
+#1*2+3/4
+def node(tree):
+    return tree[0]
+
+def children(tree):
+    return tree[1:]
+
+tree = ['+', ['*', [1], [2]], ['/', [3], [4] ]]
+print(children(tree))
+
+
+*/  
