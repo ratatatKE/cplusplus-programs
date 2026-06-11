@@ -1,6 +1,11 @@
 LearnCplusplusin24hrs/Assembly/*
+./Assembly/*
 LearnCplusplusin24hrs/Execs/*
+./Execs/*
+../.idea
 .idea
+../cmake-build-debug
 cmake-build-debug
+LearnCplusplusin24hrs/gdb.txt
 gdb.txt
 
