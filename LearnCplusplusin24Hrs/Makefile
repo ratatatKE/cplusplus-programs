@@ -15,6 +15,7 @@ FILES = $(ASM_DIR)/BoxMaker.S $(EXEC_DIR)/BoxMaker $(ASM_DIR)/BoxMakerdemangled.
 		$(EXEC_DIR)/633.SumofSquareNumbers $(ASM_DIR)/633.SumofSquareNumbersdemangled.S \
 		$(EXEC_DIR)/374.GuessNumberHigherOrLower $(ASM_DIR)/374.GuessNumberHigherOrLowerdemangled.S \
 		$(EXEC_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch $(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch.S \
+		$(EXEC_DIR)/94.BinaryTreeInOrderTraversal $(ASM_DIR)/94.BinaryTreeInOrderTraversal.S \
 
 # The .DELETE_ON_ERROR: target tells Make to delete the target files if the recipe fails ensuring that we don't end up with partial or corrupted files
 .DELETE_ON_ERROR:
@@ -31,7 +32,9 @@ all: $(FILES)
 #The $@ in the compile commands refer to the target file name
 
 
-#Assembly PART
+#Assembly PART. every x
+#----------------------------
+
 $(ASM_DIR)/BoxMaker.S: BoxMaker.cpp | $(ASM_DIR)
 	g++ -std=c++11  -S \
 	-O0	\
@@ -129,7 +132,14 @@ $(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch.S: LeetcodeGrind/Bin
 	BoxMaker.cpp \
 	-o $@
 
-#Demangled PART
+$(ASM_DIR)/94.BinaryTreeInOrderTraversal.S: LeetcodeGrind/Trees/94.BinaryTreeInOrderTraversal.cpp | $(ASM_DIR)
+	g++ -S \
+	-O0	\
+	94.BinaryTreeInOrderTraversal.cpp \
+	-o $@
+
+#Demangled PART. every x
+#------------------------------
 
 # $< means the first prerequisite of the current rule (it means “the first thing after the colon in the target line”).
 # Target: output.o Prerequisites: source.cpp (first), header.h (second). $< → source.cpp. $@ → output.o
@@ -175,11 +185,14 @@ $(ASM_DIR)/633.SumofSquareNumbersdemangled.S: $(ASM_DIR)/633.SumofSquareNumbers.
 $(ASM_DIR)/374.GuessNumberHigherOrLowerdemangled.S: $(ASM_DIR)/374.GuessNumberHigherOrLower.S
 	c++filt < $< > $@
 
-BinarySearchVariationsTheoryBoundaryVsExactMatchdemangled.S: $(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch.S
+$(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatchdemangled.S: $(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch.S
+	c++filt < $< > $@
+
+$(ASM_DIR)/94.BinaryTreeInOrderTraversal.S: $(ASM_DIR)/94.BinaryTreeInOrderTraversal.S
 	c++filt < $< > $@
 
 
-# Executable PART
+# Executable PART. every x 
 #----------------------------
 
 $(EXEC_DIR)/BoxMaker: BoxMaker.cpp | $(EXEC_DIR)
@@ -235,8 +248,12 @@ $(EXEC_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch: LeetcodeGrind/Bina
 	g++ -g $< -o $@
 
 
+$(EXEC_DIR)/94.BinaryTreeInOrderTraversal: LeetcodeGrind/Trees/94.BinaryTreeInOrderTraversal.cpp | $(EXEC_DIR)
+	g++ -g $< -o $@
 
-# Directory PART
+
+
+# Directory PART, created ONCE, no need to keep recreating.
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Create the two directories i.e. Assembly and Exec directories
 $(ASM_DIR) $(EXEC_DIR):
@@ -260,6 +277,7 @@ FILES_TO_CLEAN = $(ASM_DIR)/BoxMaker.S $(EXEC_DIR)/BoxMaker $(ASM_DIR)/BoxMakerd
 					$(ASM_DIR)/633.SumofSquareNumbers.S $(EXEC_DIR)/633.SumofSquareNumbers $(ASM_DIR)/633.SumofSquareNumbersdemangled.S \
 					$(ASM_DIR)/374.GuessNumberHigherOrLower.S $(EXEC_DIR)/374.GuessNumberHigherOrLower $(ASM_DIR)/374.GuessNumberHigherOrLower.S \
 					$(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch.S $(EXEC_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch $(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch.S \
+					$(ASM_DIR)/94.BinaryTreeInOrderTraversal.S $(EXEC_DIR)/94.BinaryTreeInOrderTraversal $(ASM_DIR)/94.BinaryTreeInOrderTraversal.S \
 
 # Also, consider adding a .PHONY directive for the clean target to prevent potential issues if a file named clean exists in your directory
 .PHONY: clean

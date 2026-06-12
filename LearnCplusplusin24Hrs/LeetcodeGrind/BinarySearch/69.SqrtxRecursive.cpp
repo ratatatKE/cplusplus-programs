@@ -32,11 +32,13 @@ private:
 
         if (left > right)
         {
-            // Break out of the loop since there will be no solution
+            // Break out of the loop since there will be no solution. \
+            // Signature exit for while(left <= right) type of recursions which find exact match. \
+            // We are justified to make this our base case for exiting our recursion.
             /*
             We repeat step 4 to 8 until the left pointer becomes greater than the right pointer.
             At this point, we have found the floor value of the square root and the right pointer holds
-            the value.
+            the value; this problem is always solvable so it will rarely return -1. The solution will always be the right value?
             */
             return right;
         }
