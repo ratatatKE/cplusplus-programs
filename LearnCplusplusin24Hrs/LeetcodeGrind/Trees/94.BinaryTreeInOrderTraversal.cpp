@@ -42,7 +42,9 @@ public:
         return list;
     }
 
-    void inorder(TreeNode* root, vector<int>& result) { 
+    void inorder(TreeNode* root, vector<int>& result) {
+
+    /*
     // Solution::inorder (this=0x7fffffffd9fb, root=0x55555556d2b0, result=std::vector of length 0, capacity 0)     o=> 1                                           || \
     // Solution::inorder (this=0x7fffffffd9fb, root=0x0, result=std::vector of length 0, capacity 0)                o=> 1->left/null/0x00 o=<  1->left/null/0x00    ||| \
     // Solution::inorder (this=0x7fffffffd9fb, root=0x55555556d2d0, result=std::vector of length 1, capacity 1 = {...})       o=> 1->right                          |||| \
@@ -50,14 +52,15 @@ public:
     // Solution::inorder (this=0x7fffffffd9fb, root=0x0, result=std::vector of length 1, capacity 1 = {...})        o=> 3->left/null/0x00                           |||||| \ 
     // Solution::inorder (this=0x7fffffffd9fb, root=0x0, result=std::vector of length 2, capacity 2 = {...})        o=> 3->right/null/0x00                          ||||||| \
     // Solution::inorder (this=0x7fffffffd9fb, root=0x0, result=std::vector of length 3, capacity 4 = {...})        o=> 2->right/null/0x00                          |||||||| \
-        /*
-                1
-                 \
-                  2
-                 /
-                3
-        /*/
-
+    
+    //    
+    //            1
+    //             \
+    //              2
+    //             /
+    //            3
+    //    
+    */
         // inorder([1,null,2,3]), result) =o> 1                                                                             || \
         // inorder(1->left i.e. NULL), result) =o> 1-left/null/0x00                                                         ||| \
         // inorder(1->right], result{1,}) o=> 1->right                                                                      |||| \
@@ -105,9 +108,11 @@ public:
     /* root = {                    val = 3,                    left = 0x0,                    right = 0x0                        } */
     // Solution::inorder (this=0x7fffffffd9fb, root=0x0, result=std::vector of length 2, capacity 2 = {...})  o=> 3->right o=< 3->right o=< 2->left @||||RECcall                                    ||||| \
     /* root = {  val = 2,  left = 0x55555556d2f0,  right = 0x0 */
-    // Solution::inorder (this=0x7fffffffd9fb, root=0x0, result=std::vector of length 3, capacity 4 = {...})  o=> 2->right o=< 2->right from @||||||||RECcall o=<1->right@||RECcall                 |||| 
+    // Solution::inorder (this=0x7fffffffd9fb, root=0x0, result=std::vector of length 3, capacity 4 = {...})  o=> 2->right o=< 2->right from @||||||||RECcall o=<1->right@||RECcall                 |||| \
 
     }
+
+};
 };
 
 

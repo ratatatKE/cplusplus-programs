@@ -17,6 +17,7 @@ FILES = $(ASM_DIR)/BoxMaker.S $(EXEC_DIR)/BoxMaker $(ASM_DIR)/BoxMakerdemangled.
 		$(EXEC_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch $(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch.S \
 		$(EXEC_DIR)/94.BinaryTreeInOrderTraversal $(ASM_DIR)/94.BinaryTreeInOrderTraversal.S \
 		$(EXEC_DIR)/94.BinaryTreeInOrderTraversalModernCpp $(ASM_DIR)/94.BinaryTreeInOrderTraversalModernCpp.S \
+		$(EXEC_DIR)/33.SearchinRotatedArray $(ASM_DIR)/33.SearchinRotatedArray.S \
 
 # The .DELETE_ON_ERROR: target tells Make to delete the target files if the recipe fails ensuring that we don't end up with partial or corrupted files
 .DELETE_ON_ERROR:
@@ -136,13 +137,19 @@ $(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch.S: LeetcodeGrind/Bin
 $(ASM_DIR)/94.BinaryTreeInOrderTraversal.S: LeetcodeGrind/Trees/94.BinaryTreeInOrderTraversal.cpp | $(ASM_DIR)
 	g++ -std=c++14 -S \
 	-O0	\
-	94.BinaryTreeInOrderTraversal.cpp \
+	$< \
 	-o $@
 	
 $(ASM_DIR)/94.BinaryTreeInOrderTraversalModernCpp.S: LeetcodeGrind/Trees/94.BinaryTreeInOrderTraversalModernCpp.cpp | $(ASM_DIR)
 	g++ -std=c++14 -S \
 	-O0	\
-	94.BinaryTreeInOrderTraversalModernCpp.cpp \
+	$< \
+	-o $@
+	
+$(ASM_DIR)/33.SearchinRotatedArray.S: LeetcodeGrind/BinarySearch/33.SearchinRotatedArray.cpp | $(ASM_DIR)
+	g++ -std=c++14 -S \
+	-O0	\
+	$< \
 	-o $@
 
 #Demangled PART. every x
@@ -195,10 +202,13 @@ $(ASM_DIR)/374.GuessNumberHigherOrLowerdemangled.S: $(ASM_DIR)/374.GuessNumberHi
 $(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatchdemangled.S: $(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch.S
 	c++filt < $< > $@
 
-$(ASM_DIR)/94.BinaryTreeInOrderTraversal.S: $(ASM_DIR)/94.BinaryTreeInOrderTraversal.S
+$(ASM_DIR)/94.BinaryTreeInOrderTraversaldemangled.S: $(ASM_DIR)/94.BinaryTreeInOrderTraversal.S
 	c++filt < $< > $@
 
-$(ASM_DIR)/94.BinaryTreeInOrderTraversalModernCpp.S: $(ASM_DIR)/94.BinaryTreeInOrderTraversalModernCpp.S
+$(ASM_DIR)/94.BinaryTreeInOrderTraversalModernCppdemangled.S: $(ASM_DIR)/94.BinaryTreeInOrderTraversalModernCpp.S
+	c++filt < $< > $@
+
+$(ASM_DIR)/33.SearchinRotatedArraydemangled.S: $(ASM_DIR)/33.SearchinRotatedArray.S
 	c++filt < $< > $@
 
 
@@ -264,6 +274,9 @@ $(EXEC_DIR)/94.BinaryTreeInOrderTraversal: LeetcodeGrind/Trees/94.BinaryTreeInOr
 $(EXEC_DIR)/94.BinaryTreeInOrderTraversalModernCpp: LeetcodeGrind/Trees/94.BinaryTreeInOrderTraversalModernCpp.cpp | $(EXEC_DIR)
 	g++ -std=c++14 -g $< -o $@
 
+$(EXEC_DIR)/33.SearchinRotatedArray: LeetcodeGrind/BinarySearch/33.SearchinRotatedArray.cpp | $(EXEC_DIR)
+	g++ -std=c++14 -g $< -o $@
+
 
 
 # Directory PART, created ONCE, no need to keep recreating.
@@ -292,6 +305,7 @@ FILES_TO_CLEAN = $(ASM_DIR)/BoxMaker.S $(EXEC_DIR)/BoxMaker $(ASM_DIR)/BoxMakerd
 					$(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch.S $(EXEC_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch $(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch.S \
 					$(ASM_DIR)/94.BinaryTreeInOrderTraversal.S $(EXEC_DIR)/94.BinaryTreeInOrderTraversal $(ASM_DIR)/94.BinaryTreeInOrderTraversal.S \
 					$(ASM_DIR)/94.BinaryTreeInOrderTraversalModernCpp.S $(EXEC_DIR)/94.BinaryTreeInOrderTraversalModernCpp $(ASM_DIR)/94.BinaryTreeInOrderTraversalModernCpp.S \
+					$(ASM_DIR)/33.SearchinRotatedArray.S $(EXEC_DIR)/33.SearchinRotatedArray $(ASM_DIR)/33.SearchinRotatedArray.S \
 
 # Also, consider adding a .PHONY directive for the clean target to prevent potential issues if a file named clean exists in your directory
 .PHONY: clean
