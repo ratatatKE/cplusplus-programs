@@ -18,6 +18,7 @@ FILES = $(ASM_DIR)/BoxMaker.S $(EXEC_DIR)/BoxMaker $(ASM_DIR)/BoxMakerdemangled.
 		$(EXEC_DIR)/94.BinaryTreeInOrderTraversal $(ASM_DIR)/94.BinaryTreeInOrderTraversal.S \
 		$(EXEC_DIR)/94.BinaryTreeInOrderTraversalModernCpp $(ASM_DIR)/94.BinaryTreeInOrderTraversalModernCpp.S \
 		$(EXEC_DIR)/33.SearchinRotatedArray $(ASM_DIR)/33.SearchinRotatedArray.S \
+		$(EXEC_DIR)/AbdBari.281.Height&CountofBinaryTree $(ASM_DIR)/AbdBari.281.Height&CountofBinaryTree.S \
 
 # The .DELETE_ON_ERROR: target tells Make to delete the target files if the recipe fails ensuring that we don't end up with partial or corrupted files
 .DELETE_ON_ERROR:
@@ -40,98 +41,97 @@ all: $(FILES)
 $(ASM_DIR)/BoxMaker.S: BoxMaker.cpp | $(ASM_DIR)
 	g++ -std=c++11  -S \
 	-O0	\
-	BoxMaker.cpp \
+	$< \
 	-o $@
 
 $(ASM_DIR)/TricycleClassOOP.S: TricycleClassOOP.cpp | $(ASM_DIR)
 	g++ -std=c++11  -S \
 	-O0	\
-	BoxMaker.cpp \
+	$< \
 	-o $@
 
 $(ASM_DIR)/NewTricycle.S: NewTricycle.cpp | $(ASM_DIR)
 	g++ -std=c++11  -S \
 	-O0	\
-	BoxMaker.cpp \
+	$< \
 	-o $@
 
 $(ASM_DIR)/Tricycle.S: Tricycle.cpp | $(ASM_DIR)
 	g++ -std=c++11  -S \
 	-O0	\
-	BoxMaker.cpp \
+	$< \
 	-o $@
 
 $(ASM_DIR)/Rectangle.S: Rectangle.cpp | $(ASM_DIR)
 	g++ -std=c++11  -S \
 	-O0	\
-	BoxMaker.cpp \
+	$< \
 	-o $@
 
 $(ASM_DIR)/RectangleOverloading.S: RectangleOverloading.cpp | $(ASM_DIR)
 	g++ -std=c++11  -S \
 	-O0	\
-	BoxMaker.cpp \
+	$< \
 	-o $@
 
 $(ASM_DIR)/BinarySearchTraditional.S: LeetcodeGrind/BinarySearch/BinarySearchTraditional.cpp | $(ASM_DIR)
 	g++ -std=c++11  -S \
 	-O0	\
-	BoxMaker.cpp \
+	$< \
 	-o $@
 
 $(ASM_DIR)/BinarySearchFindUpperBound.S: LeetcodeGrind/BinarySearch/BinarySearchFindUpperBound.cpp | $(ASM_DIR)
 	g++ -std=c++11  -S \
 	-O0	\
-	BoxMaker.cpp \
+	$< \
 	-o $@
 
 
 $(ASM_DIR)/BinarySearchFindLowerBound.S: LeetcodeGrind/BinarySearch/BinarySearchFindLowerBound.cpp | $(ASM_DIR)
 	g++ -std=c++11  -S \
 	-O0	\
-	BoxMaker.cpp \
+	$< \
 	-o $@
 
 
 $(ASM_DIR)/BinarySearchwithBuiltInToolsUpperBound.S: LeetcodeGrind/BinarySearch/BinarySearchwithBuiltInToolsUpperBound.cpp | $(ASM_DIR)
 	g++ -std=c++11  -S \
 	-O0	\
-	BoxMaker.cpp \
+	$< \
 	-o $@
 
 
 $(ASM_DIR)/69.Sqrtx.S: LeetcodeGrind/BinarySearch/69.Sqrtx.cpp | $(ASM_DIR)
 	g++ -std=c++11  -S \
 	-O0	\
-	BoxMaker.cpp \
+	$< \
 	-o $@
 
 $(ASM_DIR)/633.SumofSquareNumbers.S: LeetcodeGrind/BinarySearch/633.SumofSquareNumbers.cpp | $(ASM_DIR)
 	g++ -std=c++11  -S \
 	-O0	\
-	BoxMaker.cpp \
+	$< \
 	-o $@
 
 
 $(ASM_DIR)/69.SqrtxRecursive.S: LeetcodeGrind/BinarySearch/69.SqrtxRecursive.cpp | $(ASM_DIR)
 	g++ -std=c++11  -S \
 	-O0	\
-	BoxMaker.cpp \
-	-o $@
+	$< \
 	-o $@
 
 
 $(ASM_DIR)/374.GuessNumberHigherOrLower.S: LeetcodeGrind/BinarySearch/374.GuessNumberHigherOrLower.cpp | $(ASM_DIR)
 	g++ -std=c++11  -S \
 	-O0	\
-	BoxMaker.cpp \
+	$< \
 	-o $@
 
 
 $(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch.S: LeetcodeGrind/BinarySearch/BinarySearchVariationsTheoryBoundaryVsExactMatch.cpp | $(ASM_DIR)
 	g++ -std=c++14 -S \
 	-O0	\
-	BoxMaker.cpp \
+	$< \
 	-o $@
 
 $(ASM_DIR)/94.BinaryTreeInOrderTraversal.S: LeetcodeGrind/Trees/94.BinaryTreeInOrderTraversal.cpp | $(ASM_DIR)
@@ -151,6 +151,14 @@ $(ASM_DIR)/33.SearchinRotatedArray.S: LeetcodeGrind/BinarySearch/33.SearchinRota
 	-O0	\
 	$< \
 	-o $@
+	
+# Quote $@ and $< in all recipes that touch the & file. Make targets can have &, but the shell will split on it. So wrap them.
+# The quotes around "$@" and "$<" make the shell treat the whole filename as one argument, so & doesn't fork it.
+$(ASM_DIR)/AbdBari.281.Height&CountofBinaryTree.S: LeetcodeGrind/Trees/AbdBari.281.Height&CountofBinaryTree.cpp | $(ASM_DIR)
+	g++ -std=c++14 -S \
+	-O0	\
+	"$<" \
+	-o "$@"
 
 #Demangled PART. every x
 #------------------------------
@@ -210,6 +218,9 @@ $(ASM_DIR)/94.BinaryTreeInOrderTraversalModernCppdemangled.S: $(ASM_DIR)/94.Bina
 
 $(ASM_DIR)/33.SearchinRotatedArraydemangled.S: $(ASM_DIR)/33.SearchinRotatedArray.S
 	c++filt < $< > $@
+
+$(ASM_DIR)/AbdBari.281.Height&CountofBinaryTreedemangled.S: $(ASM_DIR)/AbdBari.281.Height&CountofBinaryTree.S
+	c++filt < "$<"" > "$@"
 
 
 # Executable PART. every x 
@@ -278,6 +289,9 @@ $(EXEC_DIR)/33.SearchinRotatedArray: LeetcodeGrind/BinarySearch/33.SearchinRotat
 	g++ -std=c++14 -g $< -o $@
 
 
+$(EXEC_DIR)/AbdBari.281.Height&CountofBinaryTree: LeetcodeGrind/Trees/AbdBari.281.Height&CountofBinaryTree.cpp | $(EXEC_DIR)
+	g++ -std=c++14 -g "$<" -o "$@"
+
 
 # Directory PART, created ONCE, no need to keep recreating.
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -301,13 +315,16 @@ FILES_TO_CLEAN = $(ASM_DIR)/BoxMaker.S $(EXEC_DIR)/BoxMaker $(ASM_DIR)/BoxMakerd
 					$(ASM_DIR)/69.Sqrtx.S $(EXEC_DIR)/69.Sqrtx $(ASM_DIR)/69.Sqrtxdemangled.S \
 					$(ASM_DIR)/69.SqrtxRecursive.S $(EXEC_DIR)/69.SqrtxRecursive $(ASM_DIR)/69.SqrtxRecursivedemangled.S \
 					$(ASM_DIR)/633.SumofSquareNumbers.S $(EXEC_DIR)/633.SumofSquareNumbers $(ASM_DIR)/633.SumofSquareNumbersdemangled.S \
-					$(ASM_DIR)/374.GuessNumberHigherOrLower.S $(EXEC_DIR)/374.GuessNumberHigherOrLower $(ASM_DIR)/374.GuessNumberHigherOrLower.S \
-					$(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch.S $(EXEC_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch $(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch.S \
-					$(ASM_DIR)/94.BinaryTreeInOrderTraversal.S $(EXEC_DIR)/94.BinaryTreeInOrderTraversal $(ASM_DIR)/94.BinaryTreeInOrderTraversal.S \
-					$(ASM_DIR)/94.BinaryTreeInOrderTraversalModernCpp.S $(EXEC_DIR)/94.BinaryTreeInOrderTraversalModernCpp $(ASM_DIR)/94.BinaryTreeInOrderTraversalModernCpp.S \
-					$(ASM_DIR)/33.SearchinRotatedArray.S $(EXEC_DIR)/33.SearchinRotatedArray $(ASM_DIR)/33.SearchinRotatedArray.S \
+					$(ASM_DIR)/374.GuessNumberHigherOrLower.S $(EXEC_DIR)/374.GuessNumberHigherOrLower $(ASM_DIR)/374.GuessNumberHigherOrLowerdemangled.S \
+					$(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch.S $(EXEC_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatch $(ASM_DIR)/BinarySearchVariationsTheoryBoundaryVsExactMatchdemangled.S \
+					$(ASM_DIR)/94.BinaryTreeInOrderTraversal.S $(EXEC_DIR)/94.BinaryTreeInOrderTraversal $(ASM_DIR)/94.BinaryTreeInOrderTraversaldemangled.S \
+					$(ASM_DIR)/94.BinaryTreeInOrderTraversalModernCpp.S $(EXEC_DIR)/94.BinaryTreeInOrderTraversalModernCpp $(ASM_DIR)/94.BinaryTreeInOrderTraversalModernCppdemangled.S \
+					$(ASM_DIR)/33.SearchinRotatedArray.S $(EXEC_DIR)/33.SearchinRotatedArray $(ASM_DIR)/33.SearchinRotatedArraydemangled.S \
+					$(ASM_DIR)/AbdBari.281.Height&CountofBinaryTree.S $(EXEC_DIR)/AbdBari.281.Height&CountofBinaryTree $(ASM_DIR)/AbdBari.281.Height&CountofBinaryTreedemangled.S \
 
 # Also, consider adding a .PHONY directive for the clean target to prevent potential issues if a file named clean exists in your directory
 .PHONY: clean
 clean:
-	rm -rf $(FILES_TO_CLEAN) $(ASM_DIR) $(EXEC_DIR)
+# 	rm -rf $(FILES_TO_CLEAN) $(ASM_DIR) $(EXEC_DIR)
+	rm -rf $(foreach f,$(FILES_TO_CLEAN),"$(f)") $(ASM_DIR) $(EXEC_DIR)
+# The $(foreach f,$(FILES_TO_CLEAN),"$(f)") wraps every single file in double quotes before passing to rm. Now the shell sees "Assembly/AbdBari.281.Height&CountofBinaryTree.S" as one argument.
