@@ -67,17 +67,16 @@ public:
             // freq1={2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; freq1={1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}  \
             // freq1={1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
-            left++;
 
             /* compare frequencies */
             if (freq1 == freq2) // freq1==freq2? NO; freq1==freq2? NO; freq1==freq2? NO; freq1==freq2? NO; freq1==freq2? NO; freq1==freq2? YES; freq1==freq2? NO;
             {
                 /* if we update left++ above and we don't have to do left+1 here*/
-                result.push_back((left)); // ; ; ; ; ; result.pushback(8-3+1), result={0,6} ; ;
-                // result.push_back((right - patternlen) + 1); // ; ; ; ; ; result.pushback(8-3+1), result={0,6} ; ;
+                // result.push_back((left)); // ; ; ; ; ; result.pushback(8-3+1), result={0,6} ; ;
+                result.push_back((right - patternlen) + 1); // ; ; ; ; ; result.pushback(8-3+1), result={0,6} ; ;
             }
 
-            
+            left++;
             right++;
         }
 
