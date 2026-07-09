@@ -12,8 +12,8 @@ public:
 
         vector<int> result; // result = {}
 
-        int stringlen = s.size(); // stringlen = 10
-        int patternlen = p.size(); // patternlen=3
+        int stringlen = s.length();  // stringlen = 10
+        int patternlen = p.length(); // patternlen=3
 
         /* If the pattern length is greater than the string length, no anagram is possible. */
         if (patternlen > stringlen) // if 3 > 10?
@@ -22,7 +22,7 @@ public:
         }
 
         /*  characters in the alphabet = 26. We are assuming all inputs are only smaller case letters.*/
-        vector<int> freq1(26, 0); 
+        vector<int> freq1(26, 0);
         // freq1={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
         vector<int> freq2(26, 0);
         // freq2={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
@@ -30,12 +30,12 @@ public:
         /*  Build hashmaps.*/
         for (int i = 0; i < patternlen; i++)
         {
-            freq1[s[i] - 'a']++; 
+            freq1[s[i] - 'a']++;
             // freq1={0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ; freq1={0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; \
             // freq1={1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ;
-            freq2[p[i] - 'a']++; 
+            freq2[p[i] - 'a']++;
             // freq2={1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} ; freq2={1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} \
-            // freq2={1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} 
+            // freq2={1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
         }
 
         /* check first window. Oooh, you can compare hashmaps 1 to 1? Ooh these are vectors. */
@@ -46,21 +46,22 @@ public:
             // result = {0,}
         }
 
-        /* slide the window on s
+        /* slide the window across s
             s= cbaebabacd, p=abc
-            freq2={1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} 
+            freq2={1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
         */
-        for (int i = patternlen; i < stringlen; i++) // (i=3, i < 10, i++); (i=4, i < 10, i++); (i=5, i < 10, i++); (i=6, i < 10, i++); (i=7, i < 10, i++); (i=8, i < 10, i++); (i=9, i < 10, i++)
+        int left = 0;
+        for (int right = patternlen; right < stringlen; right++, left++) // (i=3, i < 10, i++); (i=4, i < 10, i++); (i=5, i < 10, i++); (i=6, i < 10, i++); (i=7, i < 10, i++); (i=8, i < 10, i++); (i=9, i < 10, i++)
         {
             /* add incoming character */
-            freq1[s[i] - 'a']++; // s[3]-a i.e. e++; s[4]-a i.e. b++; s[5]-a i.e. a++; s[6]-a i.e. b++; s[7]-a i.e. a++; s[8]-a i.e. c++; s[9]-a i.e. d++
+            freq1[s[right] - 'a']++; // s[3]-a i.e. e++; s[4]-a i.e. b++; s[5]-a i.e. a++; s[6]-a i.e. b++; s[7]-a i.e. a++; s[8]-a i.e. c++; s[9]-a i.e. d++
             // freq1={1,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; freq1={1,2,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; \
             // freq1={2,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; freq1={1,2,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; \
             // freq1={2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; freq1={2,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; \
             // freq1={1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
 
             /* remove outgoing character. Reduces it's count. */
-            freq1[s[i - patternlen] - 'a']--; // s[3-3]-a i.e. c--; s[4-3]-a i.e. b--; s[5-3]-a i.e. a--; s[6-3]-a i.e. e--;  s[7-3]-a i.e. b--; s[8-3]-a i.e. a--; s[9-a]-a i.e. b--
+            freq1[s[right - patternlen] - 'a']--; // s[3-3]-a i.e. c--; s[4-3]-a i.e. b--; s[5-3]-a i.e. a--; s[6-3]-a i.e. e--;  s[7-3]-a i.e. b--; s[8-3]-a i.e. a--; s[9-a]-a i.e. b--
             // freq1={1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; freq1={1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; \
             // freq1={1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; freq1={1,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; \
             // freq1={2,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}; freq1={1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}  \
@@ -69,7 +70,7 @@ public:
             /* compare frequencies */
             if (freq1 == freq2) // freq1==freq2? NO; freq1==freq2? NO; freq1==freq2? NO; freq1==freq2? NO; freq1==freq2? NO; freq1==freq2? YES; freq1==freq2? NO;
             {
-                result.push_back((i - patternlen) + 1); // ; ; ; ; ; result.pushback(8-3+1), result={0,6} ; ;
+                result.push_back((left) + 1); // ; ; ; ; ; result.pushback(8-3+1), result={0,6} ; ;
             }
         }
 
