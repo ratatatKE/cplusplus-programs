@@ -91,7 +91,7 @@ public:
         }       
 
         inorder(root->left, result);        
-        // inorder(1->left i.e. NULL, result), result) =o>1  o=<  1->left/null/0x00                                         || \
+        // inorder(1->left i.e. NULL, result), result) =o>1  o=<  1->left/null/0x00   from @IIIReccall                      || \
         /*        *root = {            val = 2,            left = 0x55555556d2f0,            right = 0x0        }        */
         // inorder(2->left, result)  o=> 2->left  o=< 2->left from @|||||RECcall                                            |||| \
         // inorder(3->left i.e. NULL, result)  o=> 3->left   =o< 3->left/null/0x00                                          ||||| \
