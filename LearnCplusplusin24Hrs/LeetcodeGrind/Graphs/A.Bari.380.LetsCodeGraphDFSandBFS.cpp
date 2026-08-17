@@ -144,7 +144,7 @@ void printTraversal(const string &title, const vector<int> &result)
     Special note about matrix.size():
     If matrix was a C 2D style array i.e. `int matrix[6][6];`, then there's no size() at all, sizeof(matrix)/sizeof(int) = 36.
     However this is C++, matrix is not a 6*6 block of ints. matrix is a vector<<vector<int>>, think of it like `matrix = [ row0, row1, row2, row3, row4, row5 ]`. That's 6 things, each of those things itself is a vector of 6 ints. That's why matrix.size()=6.
-    
+
 */
 
 vector<int> bfsMatrix(const vector<vector<int>> &matrix, int start)
@@ -207,39 +207,61 @@ vector<int> dfsMatrix(const vector<vector<int>> &matrix, int start)
 
 /*
     Adjacency List BFS
+
+    input = &graph
+    0 -> 1 2
+    1 -> 0 3
+    2 -> 0 3
+    3 -> 1 2 4 5
+    4 -> 3
+    5 -> 3
 */
 
-vector<int> bfsList(const vector<vector<int>> &graph, int start)
+vector<int> bfsList(const vector<vector<int>> &graph, int start) // bfsList(&graph, start=0)
 {
-    vector<bool> visited(graph.size(), false);
-    vector<int> result;
-    queue<int> q;
+    vector<bool> visited(graph.size(), false); // visited={false,false,false,false,false,false}
+    vector<int> result; // result={}
+    queue<int> q; // q={}
 
-    visited[start] = true;
-    q.push(start);
+    visited[start] = true; // visited={true,false,false,false,false,false}
+    q.push(start); // q={0}
 
-    while (!q.empty())
+    while (!q.empty()) // q={0} || q={1,2} || q={2,3} || q={3} || q={4,5} || q=5 || q={} XWhile()
     {
-        int node = q.front();
-        q.pop();
+        int node = q.front(); // node=0 || node=1 || node=2 || node=3 || node=4 || node=5
+        q.pop(); // q={} || q={2} || q={3} || q={} || q={5} || q={}
 
-        result.push_back(node);
+        result.push_back(node); // result={0,} || result={0,1} || result={0,1,2} || result={0,1,2,3} || result={0,1,2,3,4} || result={0,1,2,3,4,5}
 
-        for (int neighbour : graph[node])
+        for (int neighbour : graph[node]) //for( : 1 2)  || for( : 0 3) || for( : 0 3) || for( : 1 2 4 5) || for( : 3) || for( : 3)
         {
-            if (!visited[neighbour])
+            if (!visited[neighbour]) 
+            // visited={true,...}, visited[1]==false; visited={true,true,...}, visited[2]==false || 
+            // visited={true,true,true...}, visited[0]==true; visited={true,true,true...}, visited[3] == false ||
+            // visted={true,true,true,true,..}, visited[0]=true; visited={true,true,true,true,..}, visited[3]=true ||
+            // visited={true,true,true,true,..}, visited[1]=true; visited={true,true,true,true,..}, visited[2]=true; visited={true,true,true,true,..}, visited[4]=false; visited={true,true,true,true,true..}, visited[5]=false ||
+            // visited={true,true,true,true,true,true..}, visited[3]=true; ||
+            // visited={true,true,true,true,true,true..}, visited[3]=true; 
             {
-                visited[neighbour] = true;
-                q.push(neighbour);
-            }
+                visited[neighbour] = true; // visited={true,true,...}; visited={true,true,true,...}; || -; visted={true,true,true,true,..} || -; -; || -; -; visited={true,true,true,true,true..} ; visited={true,true,true,true,true, true..} || -; || -;
+                q.push(neighbour); // q={1}; q={1,2} || -; q={2,3} || -; -; || -; -; q={4}; q={4,5} || -; || -;
+            } 
         }
     }
 
-    return result;
+    return result; // -; || -; || -; || -; || -; || -; || result={0,1,2,3,4,5}
 }
 
 /*
     Adjacency List DFS
+
+    input = &graph
+    0 -> 1 2
+    1 -> 0 3
+    2 -> 0 3
+    3 -> 1 2 4 5
+    4 -> 3
+    5 -> 3
 */
 
 void dfsListHelper(const vector<vector<int>> &graph, int node, vector<bool> &visited, vector<int> &result)
