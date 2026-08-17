@@ -236,10 +236,10 @@ $(ASM_DIR)/33.SearchinRotatedArraydemangled.S: $(ASM_DIR)/33.SearchinRotatedArra
 	c++filt < $< > $@
 
 $(ASM_DIR)/AbdBari.281.Height&CountofBinaryTreedemangled.S: $(ASM_DIR)/AbdBari.281.Height&CountofBinaryTree.S
-	c++filt < "$<"" > "$@"
+	c++filt < "$<" > "$@"
 
 $(ASM_DIR)/438.FindAllAnagramsInAStringdemangled.S: $(ASM_DIR)/438.FindAllAnagramsInAString.S
-	c++filt < "$<"" > "$@"
+	c++filt < "$<" > "$@"
 
 
 # Executable PART. every x 
