@@ -140,6 +140,11 @@ void printTraversal(const string &title, const vector<int> &result)
 
 /*
     Matrix BFS
+
+    Special note about matrix.size():
+    If matrix was a C 2D style array i.e. `int matrix[6][6];`, then there's no size() at all, sizeof(matrix)/sizeof(int) = 36.
+    However this is C++, matrix is not a 6*6 block of ints. matrix is a vector<<vector<int>>, think of it like `matrix = [ row0, row1, row2, row3, row4, row5 ]`. That's 6 things, each of those things itself is a vector of 6 ints. That's why matrix.size()=6.
+    
 */
 
 vector<int> bfsMatrix(const vector<vector<int>> &matrix, int start)
@@ -283,23 +288,23 @@ int main()
     printTraversal("DFS List", dfsList(graph, start));
 
     /*
-            
-    Output:
-    Adjacency list 
-    0 -> 1 2 
-    1 -> 0 3 
-    2 -> 0 3 
-    3 -> 1 2 4 5 
-    4 -> 3 
-    5 -> 3 
 
-    BFS Matrix : 0 1 2 3 4 5 
-    DFS Matrix : 0 1 3 2 4 5 
-    BFS List : 0 1 2 3 4 5 
-    DFS List : 0 1 3 2 4 5 
-    
+    Output:
+    Adjacency list
+    0 -> 1 2
+    1 -> 0 3
+    2 -> 0 3
+    3 -> 1 2 4 5
+    4 -> 3
+    5 -> 3
+
+    BFS Matrix : 0 1 2 3 4 5
+    DFS Matrix : 0 1 3 2 4 5
+    BFS List : 0 1 2 3 4 5
+    DFS List : 0 1 3 2 4 5
+
     Note:  0 1 3 4 5 2 and 0 1 3 5 4 2 are also valid DFS traversals. But this program is deterministic. It always checks neighbors in increasing order 0,1,2,3,4,5 with the line `for (int neighbor = 0; neighbor < n; neighbor++)` hence the results.
-    
+
     */
 
     return 0;
