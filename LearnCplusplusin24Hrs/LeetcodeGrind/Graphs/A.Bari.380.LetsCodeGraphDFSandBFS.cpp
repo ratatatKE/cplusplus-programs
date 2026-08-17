@@ -265,15 +265,35 @@ vector<int> bfsList(const vector<vector<int>> &graph, int start) // bfsList(&gra
 */
 
 void dfsListHelper(const vector<vector<int>> &graph, int node, vector<bool> &visited, vector<int> &result)
+// dfsListHelper(&graph, 0, &visited, &result) || 
+// dfsListHelper(&graph, 1, visited={true,....}, result={0})  o=>1; |||
+// dfsListHelper(&graph, 3, visited={true,true,true,...}, o=>3) ||||
+// dfsListHelper(&graph, 4, visited={true, true, true,  ..., true, false}) -
 {
-    visited[node] = true;
-    result.push_back(node);
+    visited[node] = true; 
+    // visited={true,....} || 
+    // visited={true,true,....}  |||
+    // visited={true,true,true,...}
 
-    for (int neighbour : graph[node])
+    result.push_back(node); 
+    // result={0} || 
+    // result={0,1} |||
+    // result={0,1,3}
+
+    for (int neighbour : graph[node]) 
+    // for( : 1 2) || 
+    // for( :0 3); for( :0 3) |||
+    // for( : 1 2 4 5)
     {
-        if (!visited[neighbour])
+        if (!visited[neighbour]) 
+        // visited[1]=false ||
+        // visited[1]=true; visited[3] =false |||
+        // visited[1]=true; visited[2]=true; visited[4]=false;
         {
-            dfsListHelper(graph, neighbour, visited, result);
+            dfsListHelper(graph, neighbour, visited, result);  
+            // dfsListHelper(&graph, 1, visited={true,....}, result={0})  o=>1; ||
+            // -; dfsListHelper(&graph, 3, visited={true,true,true,...}, o=>3) |||
+            // -; -; dfsListHelper(&graph, 4, visited={true, true, true,  ..., true, false})
         }
     }
 }
@@ -283,7 +303,7 @@ vector<int> dfsList(const vector<vector<int>> &graph, int start)
     vector<bool> visited(graph.size(), false);
     vector<int> result;
 
-    dfsListHelper(graph, start, visited, result);
+    dfsListHelper(graph, start, visited, result); // dfsListHelper(&graph, 0, &visited, &result)
 
     return result;
 }
