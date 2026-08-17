@@ -20,6 +20,7 @@ FILES = $(ASM_DIR)/BoxMaker.S $(EXEC_DIR)/BoxMaker $(ASM_DIR)/BoxMakerdemangled.
 		$(EXEC_DIR)/33.SearchinRotatedArray $(ASM_DIR)/33.SearchinRotatedArray.S \
 		$(EXEC_DIR)/AbdBari.281.Height&CountofBinaryTree $(ASM_DIR)/AbdBari.281.Height&CountofBinaryTree.S \
 		$(EXEC_DIR)/438.FindAllAnagramsInAString $(ASM_DIR)/438.FindAllAnagramsInAString.S \
+		$(EXEC_DIR)/A.Bari.380.LetsCodeGraphDFSandBFS $(ASM_DIR)/A.Bari.380.LetsCodeGraphDFSandBFS.S \
 
 # The .DELETE_ON_ERROR: target tells Make to delete the target files if the recipe fails ensuring that we don't end up with partial or corrupted files
 .DELETE_ON_ERROR:
@@ -169,6 +170,13 @@ $(ASM_DIR)/438.FindAllAnagramsInAString.S: LeetcodeGrind/SlidingWindow/438.FindA
 	-o "$@"
 
 
+$(ASM_DIR)/A.Bari.380.LetsCodeGraphDFSandBFS.S: LeetcodeGrind/Graphs/A.Bari.380.LetsCodeGraphDFSandBFS.cpp | $(ASM_DIR)
+	g++ -std=c++14 -S \
+	-O0	\
+	"$<" \
+	-o "$@"
+
+
 
 
 
@@ -240,6 +248,10 @@ $(ASM_DIR)/AbdBari.281.Height&CountofBinaryTreedemangled.S: $(ASM_DIR)/AbdBari.2
 
 $(ASM_DIR)/438.FindAllAnagramsInAStringdemangled.S: $(ASM_DIR)/438.FindAllAnagramsInAString.S
 	c++filt < "$<" > "$@"
+
+$(ASM_DIR)/A.Bari.380.LetsCodeGraphDFSandBFSdemangled.S: $(ASM_DIR)/A.Bari.380.LetsCodeGraphDFSandBFS.S
+	c++filt < "$<" > "$@"
+
 
 
 # Executable PART. every x 
@@ -315,6 +327,9 @@ $(EXEC_DIR)/AbdBari.281.Height&CountofBinaryTree: LeetcodeGrind/Trees/AbdBari.28
 $(EXEC_DIR)/438.FindAllAnagramsInAString: LeetcodeGrind/SlidingWindow/438.FindAllAnagramsInAString.cpp | $(EXEC_DIR)
 	g++ -std=c++14 -g "$<" -o "$@"
 
+$(EXEC_DIR)/A.Bari.380.LetsCodeGraphDFSandBFS: LeetcodeGrind/Graphs/A.Bari.380.LetsCodeGraphDFSandBFS.cpp | $(EXEC_DIR)
+	g++ -std=c++14 -g "$<" -o "$@"
+
 
 # Directory PART, created ONCE, no need to keep recreating.
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -345,6 +360,7 @@ FILES_TO_CLEAN = $(ASM_DIR)/BoxMaker.S $(EXEC_DIR)/BoxMaker $(ASM_DIR)/BoxMakerd
 					$(ASM_DIR)/33.SearchinRotatedArray.S $(EXEC_DIR)/33.SearchinRotatedArray $(ASM_DIR)/33.SearchinRotatedArraydemangled.S \
 					$(ASM_DIR)/AbdBari.281.Height&CountofBinaryTree.S $(EXEC_DIR)/AbdBari.281.Height&CountofBinaryTree $(ASM_DIR)/AbdBari.281.Height&CountofBinaryTreedemangled.S \
 					$(ASM_DIR)/438.FindAllAnagramsInAString.S $(EXEC_DIR)/438.FindAllAnagramsInAString $(ASM_DIR)/438.FindAllAnagramsInAStringdemangled.S \
+					$(ASM_DIR)/A.Bari.380.LetsCodeGraphDFSandBFS.S $(EXEC_DIR)/A.Bari.380.LetsCodeGraphDFSandBFS $(ASM_DIR)/A.Bari.380.LetsCodeGraphDFSandBFSdemangled.S \
 
 # Also, consider adding a .PHONY directive for the clean target to prevent potential issues if a file named clean exists in your directory
 .PHONY: clean
