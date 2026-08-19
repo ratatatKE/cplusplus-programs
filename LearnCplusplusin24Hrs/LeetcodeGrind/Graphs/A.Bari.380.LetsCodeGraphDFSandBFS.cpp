@@ -268,32 +268,43 @@ void dfsListHelper(const vector<vector<int>> &graph, int node, vector<bool> &vis
 // dfsListHelper(&graph, 0, &visited, &result) || 
 // dfsListHelper(&graph, 1, visited={true,....}, result={0})  o=>1; |||
 // dfsListHelper(&graph, 3, visited={true,true,true,...}, o=>3) ||||
-// dfsListHelper(&graph, 4, visited={true, true, true,  ..., true, false}) -
+// dfsListHelper(&graph, 4, visited={true, true, true,  ..., true, false}) o=>4 |||||
+// dfsListHelper(&graph, 5, visited={true,true,true,true,true,....}) o=>5
+
 {
     visited[node] = true; 
     // visited={true,....} || 
     // visited={true,true,....}  |||
-    // visited={true,true,true,...}
+    // visited={true,true,true,true,...} ||||
+    // visited={true,true,true,true,true,....} |||||
+    // visited={true,true,true,true,true,true}
 
     result.push_back(node); 
     // result={0} || 
     // result={0,1} |||
-    // result={0,1,3}
+    // result={0,1,3} ||||
+    // result={0,1,3,4} |||||
+    // result={0,1,2,3,4,5}
 
     for (int neighbour : graph[node]) 
     // for( : 1 2) || 
-    // for( :0 3); for( :0 3) |||
-    // for( : 1 2 4 5)
+    // for( : 0 3); for( :0 3) |||
+    // for( : 1 2 4 5) ||||
+    // for( : 3) |||||
+    // for( : 3)
     {
         if (!visited[neighbour]) 
         // visited[1]=false ||
         // visited[1]=true; visited[3] =false |||
-        // visited[1]=true; visited[2]=true; visited[4]=false;
+        // visited[1]=true; visited[2]=true; visited[4]=false; ||||
+        // visited[3]=true; |||||
+        // visited[3] = true
         {
             dfsListHelper(graph, neighbour, visited, result);  
             // dfsListHelper(&graph, 1, visited={true,....}, result={0})  o=>1; ||
-            // -; dfsListHelper(&graph, 3, visited={true,true,true,...}, o=>3) |||
-            // -; -; dfsListHelper(&graph, 4, visited={true, true, true,  ..., true, false})
+            // -; dfsListHelper(&graph, 3, visited={true,true,true,...}), o=>3; |||
+            // -; -; dfsListHelper(&graph, 4, visited={true,true,true,true,...}) o=>4 o=<4 xReturnedfrom@IIII; dfsListHelper(&graph, 5, visited={true,true,true,true,true,....}) o=>5 o=<5 xReturnedfromIIIII ||||
+            // -; |||||
         }
     }
 }
