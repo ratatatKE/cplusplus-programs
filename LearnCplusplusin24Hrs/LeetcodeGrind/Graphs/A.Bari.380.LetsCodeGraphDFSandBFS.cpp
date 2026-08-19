@@ -254,6 +254,7 @@ vector<int> bfsList(const vector<vector<int>> &graph, int start) // bfsList(&gra
 
 /*
     Adjacency List DFS. INCOMPLETE AND INCORRECT ANNOTATION for dfsListHelper() and dfsList() as at 19.08.2026, don't use it.
+    Go through this CODE WITH A DEBUGGER AND CORRECT THIS ANNOTATION.
 
     input = &graph
     0 -> 1 2
