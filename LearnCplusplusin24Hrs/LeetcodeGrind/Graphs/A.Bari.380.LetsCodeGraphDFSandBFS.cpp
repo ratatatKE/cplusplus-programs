@@ -253,7 +253,7 @@ vector<int> bfsList(const vector<vector<int>> &graph, int start) // bfsList(&gra
 }
 
 /*
-    Adjacency List DFS
+    Adjacency List DFS. INCOMPLETE AND INCORRECT ANNOTATION for dfsListHelper() and dfsList() as at 19.08.2026, don't use it.
 
     input = &graph
     0 -> 1 2
@@ -302,7 +302,7 @@ void dfsListHelper(const vector<vector<int>> &graph, int node, vector<bool> &vis
         {
             dfsListHelper(graph, neighbour, visited, result);  
             // dfsListHelper(&graph, 1, visited={true,....}, result={0})  o=>1; ||
-            // -; dfsListHelper(&graph, 3, visited={true,true,true,...}), o=>3; |||
+            // -; dfsListHelper(&graph, 3, visited={true,true,true,...}), o=>3 o=<3 xReturnedFromIIII; |||
             // -; -; dfsListHelper(&graph, 4, visited={true,true,true,true,...}) o=>4 o=<4 xReturnedfrom@IIII; dfsListHelper(&graph, 5, visited={true,true,true,true,true,....}) o=>5 o=<5 xReturnedfromIIIII ||||
             // -; |||||
         }
