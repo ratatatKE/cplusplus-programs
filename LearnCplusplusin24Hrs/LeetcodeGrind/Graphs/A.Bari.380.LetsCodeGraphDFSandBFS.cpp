@@ -85,6 +85,7 @@ Edges:
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <stack>
 
 using namespace std;
 
@@ -220,32 +221,32 @@ vector<int> dfsMatrix(const vector<vector<int>> &matrix, int start)
 vector<int> bfsList(const vector<vector<int>> &graph, int start) // bfsList(&graph, start=0)
 {
     vector<bool> visited(graph.size(), false); // visited={false,false,false,false,false,false}
-    vector<int> result; // result={}
-    queue<int> q; // q={}
+    vector<int> result;                        // result={}
+    queue<int> q;                              // q={}
 
     visited[start] = true; // visited={true,false,false,false,false,false}
-    q.push(start); // q={0}
+    q.push(start);         // q={0}
 
     while (!q.empty()) // q={0} | q={1,2} | q={2,3} | q={3} | q={4,5} | q=5 | q={} XWhile()
     {
         int node = q.front(); // node=0 | node=1 | node=2 | node=3 | node=4 | node=5
-        q.pop(); // q={} | q={2} | q={3} | q={} | q={5} | q={}
+        q.pop();              // q={} | q={2} | q={3} | q={} | q={5} | q={}
 
         result.push_back(node); // result={0,} | result={0,1} | result={0,1,2} | result={0,1,2,3} | result={0,1,2,3,4} | result={0,1,2,3,4,5}
 
-        for (int neighbour : graph[node]) //for( : 1 2)  | for( : 0 3) | for( : 0 3) | for( : 1 2 4 5) | for( : 3) | for( : 3)
+        for (int neighbour : graph[node]) // for( : 1 2)  | for( : 0 3) | for( : 0 3) | for( : 1 2 4 5) | for( : 3) | for( : 3)
         {
-            if (!visited[neighbour]) 
-            // visited={true,...}, visited[1]==false; visited={true,true,...}, visited[2]==false | 
+            if (!visited[neighbour])
+            // visited={true,...}, visited[1]==false; visited={true,true,...}, visited[2]==false |
             // visited={true,true,true...}, visited[0]==true; visited={true,true,true...}, visited[3] == false |
             // visted={true,true,true,true,..}, visited[0]=true; visited={true,true,true,true,..}, visited[3]=true |
             // visited={true,true,true,true,..}, visited[1]=true; visited={true,true,true,true,..}, visited[2]=true; visited={true,true,true,true,..}, visited[4]=false; visited={true,true,true,true,true..}, visited[5]=false |
             // visited={true,true,true,true,true,true..}, visited[3]=true; |
-            // visited={true,true,true,true,true,true..}, visited[3]=true; 
+            // visited={true,true,true,true,true,true..}, visited[3]=true;
             {
                 visited[neighbour] = true; // visited={true,true,...}; visited={true,true,true,...}; | -; visted={true,true,true,true,..} | -; -; | -; -; visited={true,true,true,true,true..} ; visited={true,true,true,true,true, true..} | -; | -;
-                q.push(neighbour); // q={1}; q={1,2} | -; q={2,3} | -; -; | -; -; q={4}; q={4,5} | -; | -;
-            } 
+                q.push(neighbour);         // q={1}; q={1,2} | -; q={2,3} | -; -; | -; -; q={4}; q={4,5} | -; | -;
+            }
         }
     }
 
@@ -265,7 +266,7 @@ vector<int> bfsList(const vector<vector<int>> &graph, int start) // bfsList(&gra
 */
 
 void dfsListHelper(const vector<vector<int>> &graph, int node, vector<bool> &visited, vector<int> &result)
-// dfsListHelper(&graph, 0, &visited, &result)                                  | 
+// dfsListHelper(&graph, 0, &visited, &result)                                  |
 // dfsListHelper(&graph, 1, visited={true,....}, result={0})  o=>1;             ||
 // dfsListHelper(&graph, 3, visited={true,true,true,...}, o=>3)                 |||
 // dfsListHelper(&graph, 2, visited={true,true,false,true,...}) o=>2            ||||
@@ -273,31 +274,31 @@ void dfsListHelper(const vector<vector<int>> &graph, int node, vector<bool> &vis
 // dfsListHelper(&graph, 5, visited={true,true,true,true,true....}) o=>5        ||||||
 
 {
-    visited[node] = true; 
-    // visited={true,....}                          | 
+    visited[node] = true;
+    // visited={true,....}                          |
     // visited={true,true,....}                     ||
     // visited={true,true,false,true,...}           |||
     // visited={true,true,true,true,...}            ||||
     // visited={true,true,true,true,true...}        |||||
     // visited={true,true,true,true,true, true}     ||||||
 
-    result.push_back(node); 
-    // result={0}                   | 
+    result.push_back(node);
+    // result={0}                   |
     // result={0,1}                 ||
     // result={0,1,3}               |||
     // result={0,1,3,2}             ||||
     // result={0,1,3,2,4}           |||||
     // result={0,1,3,2,4,5}         ||||||
 
-    for (int neighbour : graph[node]) 
-    // for( : 1 2)                  | 
+    for (int neighbour : graph[node])
+    // for( : 1 2)                  |
     // for( : 0 3); for( :0 3)      ||
     // for( : 1 2 4 5)              |||
     // for( : 0 3)                  ||||
     // for( : 3)                    |||||
     // for( : 3)                    ||||||
     {
-        if (!visited[neighbour]) 
+        if (!visited[neighbour])
         // visited[1]=false; visited[2]=true     xEnddfsListHelper()    |
         // visited[1]=true; visited[3] =false                           ||
         // visited[1]=true; visited[2]=false; visited[4]=false;         |||
@@ -305,11 +306,11 @@ void dfsListHelper(const vector<vector<int>> &graph, int node, vector<bool> &vis
         // visited[3] = true;                                           |||||
         // visited[3] = true;                                           ||||||
         {
-            dfsListHelper(graph, neighbour, visited, result);  
+            dfsListHelper(graph, neighbour, visited, result);
             // dfsListHelper(&graph, 1, visited={true,....}, result={0})  o=>1 1<=o xReturnedfromII; -; |
             // -; dfsListHelper(&graph, 3, visited={true,true,true,...}), o=>3 o=<3 xReturnedFromIII; ||
             // -; dfsListHelper(&graph, 2, visited={true,true,false,true,...}) o=>2 2<=o xreturnedfromIIII; dfsListHelper(&graph, 4, visited={true,true,true,true,...}) o=>4 o=<4 xReturnedfromIIIII; dfsListHelper(&graph, 5, visited={true,true,true,true,true,....}) o=>5 o=<5 xReturnedfromIIIIII |||
-            // -; -; |||| 
+            // -; -; ||||
             // -;    |||||
             // -;    ||||||
         }
@@ -323,6 +324,64 @@ vector<int> dfsList(const vector<vector<int>> &graph, int start)
 
     dfsListHelper(graph, start, visited, result); // dfsListHelper(&graph, 0, &visited, &result)
 
+    return result;
+}
+
+/*
+    Still traversing DFS in our Adjacency list but this time using an explicit stack.
+
+    input = &graph
+    0 -> 1 2
+    1 -> 0 3
+    2 -> 0 3
+    3 -> 1 2 4 5
+    4 -> 3
+    5 -> 3
+*/
+
+vector<int> dfsListButStackBased(const vector<vector<int>> &graph, int start) // dfsListButStackBased(graph, 0)
+{
+    vector<bool> visited(graph.size(), false); // visited={false,  false, false, false, false, false}
+    vector<int> result; // result={}
+
+    stack<int> st; // st={} (NOTE: left right is the top of the stack, left is the bottom)
+
+    visited[start] = true; // visited={true, false, false, false, false, false}
+    st.push(start); // st={0}
+
+    while (!st.empty()) // st={0} |  st={1,2} | st={1,3} | st={1,4,5} | st={1,4} | st={1} | st={} Xwhile() with result={0,2,3,5,4,1}
+    {
+        int node = st.top(); //node=0 | node=2  | node=3 | node=5 | node=4 | node=1
+        st.pop();   // st={} | st={1} | st={1} | st={1, 4} | st={1} | st={}
+
+        result.push_back(node); //result={0} | result={0,2} | result={0,2,3} | result={0,2,3,5} | result={0,2,3,5,4} | result={0,2,3,5,4,1}
+
+        for (int neighbour : graph[node]) // for( : 1 2) | for(: 0 3) | for( : 1 2 4 5) | for(: 3) | for (: 3) | for( : 0 3)
+        {
+            if (!visited[neighbour]) 
+            // visited[1]==false ; visited[2]==false | visited[0]==true; visited[3]==false  | 
+            // visited[1]==true; visited[1]==true; visited[4]==false;  visited[5]==false    |
+            // visited[3]==true;                                                            |
+            // visited[3]==true;                                                            |
+            // visited[0]==true; visited[3]==true                           
+            {
+                visited[neighbour] = true; 
+                // visited={true, true, false, false, false, false} ; visited={true, true, true, false, false, false} | -; visited={true, true, true, true, false, false}   |
+                // -; -; visited={true, true, true, true, true, false}; visited={true, true, true, true, true, true}                                                        |
+                // -;                                                                                                                                                       |
+                // -:                                                                                                                                                       |
+                // -; -;
+                st.push(neighbour); 
+                // st={1} ; st={1,2} | st={1}; st{1,3}      | 
+                // st={1}; st={1}; st={1,4}; st={1,4,5}     |
+                // st={1, 4};                               |
+                // st={1};                                  |
+                // st={}; st={}                                 
+            }
+        }
+    }
+
+    // return result
     return result;
 }
 
@@ -346,6 +405,7 @@ int main()
     printTraversal("DFS Matrix", dfsMatrix(matrix, start));
     printTraversal("BFS List", bfsList(graph, start));
     printTraversal("DFS List", dfsList(graph, start));
+    printTraversal("DFS List But Using Explicit Stack: ", dfsListButStackBased(graph, start));
 
     /*
 
