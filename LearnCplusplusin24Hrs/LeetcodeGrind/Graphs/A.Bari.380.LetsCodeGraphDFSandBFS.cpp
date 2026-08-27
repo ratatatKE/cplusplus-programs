@@ -146,32 +146,49 @@ void printTraversal(const string &title, const vector<int> &result)
     If matrix was a C 2D style array i.e. `int matrix[6][6];`, then there's no size() at all, sizeof(matrix)/sizeof(int) = 36.
     However this is C++, matrix is not a 6*6 block of ints. matrix is a vector<<vector<int>>, think of it like `matrix = [ row0, row1, row2, row3, row4, row5 ]`. That's 6 things, each of those things itself is a vector of 6 ints. That's why matrix.size()=6.
 
+
+    input ==  vector<vector<int>> matrix =
+        {
+            {0, 1, 1, 0, 0, 0},
+            {1, 0, 0, 1, 0, 0},
+            {1, 0, 0, 1, 0, 0},
+            {0, 1, 1, 0, 1, 1},
+            {0, 0, 0, 1, 0, 0},
+            {0, 0, 0, 1, 0, 0}};
 */
 
 vector<int> bfsMatrix(const vector<vector<int>> &matrix, int start)
 {
-    int n = matrix.size();
+    int n = matrix.size(); // n=6
 
-    vector<bool> visited(n, false);
-    vector<int> result;
-    queue<int> q;
+    vector<bool> visited(n, false); // visited={false, false, false, false, false, false}
+    vector<int> result;             // result={}
+    queue<int> q;                   // q={}
 
-    q.push(start);
-    visited[start] = true;
+    visited[start] = true; // visited{true,...}
+    q.push(start);         // q={0}  NOTE: Left is front, right is back
 
-    while (!q.empty())
+    while (!q.empty()) // q={0}, visited{true,...} | visited={true,true,true,true,true,true} q={1,2,3,4,5}
     {
-        int node = q.front();
-        q.pop();
+        int node = q.front(); // node=0 | node=1
+        q.pop();              // q={}   | q={2,3,4,5}
 
-        result.push_back(node);
+        result.push_back(node); // result={0} | result={0,1}
 
         for (int neighbour = 0; neighbour < n; neighbour++)
+        // for( neighbour=0, neighbour< 6; ++),visited{true,...} ; for(int neighbour=1, neighbour< 6; ++), visited{true,...} ; for(int neighbour=2, neighbour< 6; ++), visited{true,true,...} ; for(int neighbour=3, neighbour< 6; ++), visited{true,true,true,...} ; for(int neighbour=4, neighbour< 6; ++), visited{true,true,true,true,...} ; for(int neighbour=5, neighbour< 6; ++), visited{true,true,true,true,...} ; Xfor() with visited={true,true,true,true,true,true} q={1,2,3,4,5} |
+        // for( neighbour=0, neighbour< 6, ++), visited={true,true,true,true,true,true} ; for( neighbour=1, neighbour< 6, ++), visited={true,true,true,true,true,true}
         {
             if (matrix[node][neighbour] && !visited[neighbour])
+            // if(matrix[0][0] && !visited[0]) ; if(matrix[0][1] && !visited[1]) ; if(matrix[0][2] && !visited[2]) ; if(matrix[0][3] && !visited[3]) ; if(matrix[0][4] && !visited[4]) ; if(matrix[0][5] && !visited[5]) |
+            // if(matrix[1][0] && !visited[0]) ; if(matrix[1][1] && !visited[1])
             {
-                visited[neighbour] = true;
-                q.push(neighbour);
+                visited[neighbour] = true; 
+                // -; visited={true,true,...}; visited={true,true,true,...} ; visited={true,true,true,true,...} ; visited={true,true,true,true,true,...} ; visited={true,true,true,true,true,true} |
+                // -; -;
+                q.push(neighbour);         
+                // -; q={1} ; q={1,2} ; q={1,2,3} ; q={1,2,3,4} ; q={1,2,3,4,5} |
+                // -; -;
             }
         }
     }
@@ -342,41 +359,41 @@ vector<int> dfsList(const vector<vector<int>> &graph, int start)
 vector<int> dfsListButStackBased(const vector<vector<int>> &graph, int start) // dfsListButStackBased(graph, 0)
 {
     vector<bool> visited(graph.size(), false); // visited={false,  false, false, false, false, false}
-    vector<int> result; // result={}
+    vector<int> result;                        // result={}
 
     stack<int> st; // st={} (NOTE: left right is the top of the stack, left is the bottom)
 
     visited[start] = true; // visited={true, false, false, false, false, false}
-    st.push(start); // st={0}
+    st.push(start);        // st={0}
 
     while (!st.empty()) // st={0} |  st={1,2} | st={1,3} | st={1,4,5} | st={1,4} | st={1} | st={} Xwhile() with result={0,2,3,5,4,1}
     {
-        int node = st.top(); //node=0 | node=2  | node=3 | node=5 | node=4 | node=1
-        st.pop();   // st={} | st={1} | st={1} | st={1, 4} | st={1} | st={}
+        int node = st.top(); // node=0 | node=2  | node=3 | node=5 | node=4 | node=1
+        st.pop();            // st={} | st={1} | st={1} | st={1, 4} | st={1} | st={}
 
-        result.push_back(node); //result={0} | result={0,2} | result={0,2,3} | result={0,2,3,5} | result={0,2,3,5,4} | result={0,2,3,5,4,1}
+        result.push_back(node); // result={0} | result={0,2} | result={0,2,3} | result={0,2,3,5} | result={0,2,3,5,4} | result={0,2,3,5,4,1}
 
         for (int neighbour : graph[node]) // for( : 1 2) | for(: 0 3) | for( : 1 2 4 5) | for(: 3) | for (: 3) | for( : 0 3)
         {
-            if (!visited[neighbour]) 
-            // visited[1]==false ; visited[2]==false | visited[0]==true; visited[3]==false  | 
+            if (!visited[neighbour])
+            // visited[1]==false ; visited[2]==false | visited[0]==true; visited[3]==false  |
             // visited[1]==true; visited[1]==true; visited[4]==false;  visited[5]==false    |
             // visited[3]==true;                                                            |
             // visited[3]==true;                                                            |
-            // visited[0]==true; visited[3]==true                           
+            // visited[0]==true; visited[3]==true
             {
-                visited[neighbour] = true; 
+                visited[neighbour] = true;
                 // visited={true, true, false, false, false, false} ; visited={true, true, true, false, false, false} | -; visited={true, true, true, true, false, false}   |
                 // -; -; visited={true, true, true, true, true, false}; visited={true, true, true, true, true, true}                                                        |
                 // -;                                                                                                                                                       |
                 // -:                                                                                                                                                       |
                 // -; -;
-                st.push(neighbour); 
-                // st={1} ; st={1,2} | st={1}; st{1,3}      | 
+                st.push(neighbour);
+                // st={1} ; st={1,2} | st={1}; st{1,3}      |
                 // st={1}; st={1}; st={1,4}; st={1,4,5}     |
                 // st={1, 4};                               |
                 // st={1};                                  |
-                // st={}; st={}                                 
+                // st={}; st={}
             }
         }
     }
@@ -395,6 +412,8 @@ int main()
             {0, 1, 1, 0, 1, 1},
             {0, 0, 0, 1, 0, 0},
             {0, 0, 0, 1, 0, 0}};
+
+    cout << "NdedaC: matrix 3,0 = " << matrix[3][0] << " matrix[3][1] =" << matrix[3][1] << " matrix[3][2] =" << matrix[3][2] << " matrix 3,3 =" << matrix[3][3] << " matrix3,4 = " << matrix[3][4] << " and matrix 3,5 =" << matrix[3][5] << std::endl;
 
     vector<vector<int>> graph = matrixToList(matrix);
     printList(graph);
