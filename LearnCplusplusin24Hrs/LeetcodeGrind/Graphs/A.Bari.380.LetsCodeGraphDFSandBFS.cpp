@@ -143,9 +143,9 @@ void printTraversal(const string &title, const vector<int> &result)
     Matrix BFS
 
     Special note about matrix.size():
-    If matrix was a C 2D style array i.e. `int matrix[6][6];`, then there's no size() at all, sizeof(matrix)/sizeof(int) = 36.
-    However this is C++, matrix is not a 6*6 block of ints. matrix is a vector<<vector<int>>, think of it like `matrix = [ row0, row1, row2, row3, row4, row5 ]`. That's 6 things, each of those things itself is a vector of 6 ints. That's why matrix.size()=6.
-
+    If matrix was a C 2D style array i.e. `int matrix[6][6];`, then there's no .size() at all, sizeof(matrix)/sizeof(int) = 36.
+    However this is C++, matrix is not a 6*6 block of ints. matrix is a vector<<vector<int>>, think of it like `matrix = [ row0, row1, row2, row3, row4, row5 ]`. 
+    That's 6 things, each of those things itself is a vector of 6 ints. That's why matrix.size()=6 for the below matrix.
 
     input ==  vector<vector<int>> matrix =
         {
@@ -155,6 +155,27 @@ void printTraversal(const string &title, const vector<int> &result)
             {0, 1, 1, 0, 1, 1},
             {0, 0, 0, 1, 0, 0},
             {0, 0, 0, 1, 0, 0}};
+
+    To learn what `if(matrix[node][neighbour]) does, see GDB output based on our current input:
+    +p (bool)(matrix[0][0])
+    $9 = false
+    +p (bool)(matrix[0][1])
+    $10 = true
+    +p (bool)(matrix[0][2])
+    $11 = true
+    +p (bool)(matrix[0][3])
+    $12 = false
+    +p (bool)(matrix[0][4])
+    $13 = false
+    +p (bool)(matrix[0][5])
+    $14 = false
+
+    // Here at [0][6] and [0][7] we are reading memory that is not ours and out of bounds of our matrix hence the GARBAGE.
+    +p (bool)(matrix[0][6])
+    $15 = true
+    +p (bool)(matrix[0][7])
+    $16 = false
+
 */
 
 vector<int> bfsMatrix(const vector<vector<int>> &matrix, int start)
@@ -168,32 +189,55 @@ vector<int> bfsMatrix(const vector<vector<int>> &matrix, int start)
     visited[start] = true; // visited{true,...}
     q.push(start);         // q={0}  NOTE: Left is front, right is back
 
-    while (!q.empty()) // q={0}, visited{true,...} | visited={true,true,true,true,true,true} q={1,2,3,4,5}
+    while (!q.empty()) // q={0}, visited{true,...} | q={1,2} visited{true,true,true,...} | q={2,3} visited={true, true, true, true,....} |  q={3} visited={true, true, true, true,....}; |  q={4,5} visited={true, true, true, true, true, true} | q={5} visited={true, true, true, true, true, true} | Xwhile() result={0,1,2,3,4,5}
     {
-        int node = q.front(); // node=0 | node=1
-        q.pop();              // q={}   | q={2,3,4,5}
+        int node = q.front(); // node=0 | node=1 | node=2 | node=3 | node=4 | node=5
+        q.pop();              // q={}   | q={2}  | q={3}  | q={ }  | q{5}   | q={ }
 
-        result.push_back(node); // result={0} | result={0,1}
+        result.push_back(node); // result={0} | result={0,1} | result={0,1,2} | result={0,1,2,3} | result={0,1,2,3,4} | result={0,1,2,3,4,5}
 
         for (int neighbour = 0; neighbour < n; neighbour++)
-        // for( neighbour=0, neighbour< 6; ++),visited{true,...} ; for(int neighbour=1, neighbour< 6; ++), visited{true,...} ; for(int neighbour=2, neighbour< 6; ++), visited{true,true,...} ; for(int neighbour=3, neighbour< 6; ++), visited{true,true,true,...} ; for(int neighbour=4, neighbour< 6; ++), visited{true,true,true,true,...} ; for(int neighbour=5, neighbour< 6; ++), visited{true,true,true,true,...} ; Xfor() with visited={true,true,true,true,true,true} q={1,2,3,4,5} |
-        // for( neighbour=0, neighbour< 6, ++), visited={true,true,true,true,true,true} ; for( neighbour=1, neighbour< 6, ++), visited={true,true,true,true,true,true}
+        // for( neighbour=0, neighbour< 6, ++),visited{true,...} ; for(int neighbour=1, neighbour< 6; ++), visited{true,...} ; for(int neighbour=2, neighbour< 6; ++), visited{true,true,...} ;                                                                                                                                 \
+        // for(int neighbour=3, neighbour< 6, ++), visited{true,true,true,...} ; for(int neighbour=4, neighbour< 6; ++),  visited{true,true,true,...} ;                                                                                                                                                                         \
+        // for(int neighbour=5, neighbour< 6, ++),  visited{true,true,true,...} ; Xfor() with  visited{true,true,true,...} q={1,2}                                                                                                                                                                                              |
+        // for(neighbour=0, neighbour< 6, ++), visited{true,true,true,...} ; for( neighbour=1, neighbour< 6, ++), visited{true,true,true,...} ; for( neighbour=2, neighbour< 6, ++), visited{true,true,true,...}                                                                                                                \
+        // for(neighbour=3, neighbour< 6, ++), visited{true,true,true,...} ;  for( neighbour=4, neighbour< 6, ++), visited={true, true, true, true,....} ; for( neighbour=5, neighbour< 6, ++), visited={true, true, true, true,....}; Xfor() with visited={true, true, true, true,....}  q={2.3}                               |
+        // for(neighbour=0, neighbour<6, ++), visited={true, true, true, true,....} ; for( neighbour=1, neighbour<6, ++), visited={true, true, true, true,....} ; for( neighbour=2, neighbour<6, ++), visited={true, true, true, true,....}                                                                                     \
+        // for(neighbour=3, neighbour<6, ++), visited={true, true, true, true,....} ; for( neighbour=4, neighbour<6, ++), visited={true, true, true, true,....} ; for( neighbour=5, neighbour<6, ++), visited={true, true, true, true,....}; xfor() with visited={true, true, true, true,....} q={3}                            |
+        // for(neighbour=0, neighbour<6, ++), visited={true, true, true, true,....} ; for(neighbour=1, neighbour<6, ++), visited={true, true, true, true,....} ; for(neighbour=2, neighbour<6, ++), visited={true, true, true, true,....}                                                                                       \
+        // for(neighbour=3, neighbour<6, ++), visited={true, true, true, true,....} ; for(neighbour=4, neighbour<6, ++), visited={true, true, true, true,....} ; for(neighbour=5, neighbour<6, ++), visited={true, true, true, true, true....} ; xfor() with visited={true, true, true, true, true, true} q={4,5}               |
+        // for(neighbour=0, neighbour<6, ++), visited={true, true, true, true, true, true}; for(neighbour=1, neighbour<6, ++), visited={true, true, true, true, true, true}; for(neighbour=2, neighbour<6, ++), visited={true, true, true, true, true, true}                                                                    \
+        // for(neighbour=3, neighbour<6, ++), visited={true, true, true, true, true, true}; for(neighbour=4, neighbour<6, ++), visited={true, true, true, true, true, true}; for(neighbour=5, neighbour<6, ++), visited={true, true, true, true, true, true}; xfor() with visited={true, true, true, true, true, true} q{5}     |
+        // for(neighbour=0, neighbour<6, ++), visited={true, true, true, true, true, true}; for(neighbour=1, neighbour<6, ++), visited={true, true, true, true, true, true}; for(neighbour=2, neighbour<6, ++), visited={true, true, true, true, true, true};                                                                   \
+        // for(neighbour=3, neighbour<6, ++), visited={true, true, true, true, true, true}; for(neighbour=4, neighbour<6, ++), visited={true, true, true, true, true, true}; for(neighbour=5, neighbour<6, ++), visited={true, true, true, true, true, true}; xfor() with visited={true, true, true, true, true, true} q{ } 
         {
             if (matrix[node][neighbour] && !visited[neighbour])
-            // if(matrix[0][0] && !visited[0]) ; if(matrix[0][1] && !visited[1]) ; if(matrix[0][2] && !visited[2]) ; if(matrix[0][3] && !visited[3]) ; if(matrix[0][4] && !visited[4]) ; if(matrix[0][5] && !visited[5]) |
-            // if(matrix[1][0] && !visited[0]) ; if(matrix[1][1] && !visited[1])
+            // if(matrix[0][0] i.e. false && !visited[0]) ; if(matrix[0][1] i.e. true && !visited[1]) ; if(matrix[0][2] i.e. true && !visited[2]) ; if(matrix[0][3] i.e. false && !visited[3]) ; if(matrix[0][4] i.e. false && !visited[4]) ; if(matrix[0][5] i.e. false && !visited[5])    |
+            // if(matrix[1][0] i.e. true  && !visited[0]) ; if(matrix[1][1] i.e. false && !visited[1]) ; if(matrix[1][2] i.e. false && !visited[2]) ; if(matrix[1][3] i.e. true && !visited[3]) ; if(matrix[1][4] i.e. false && !visited[4]) ; if(matrix[1][5] i.e. false && !visited[5])   |
+            // if(matrix[2][0] i.e. true && !visited[0]) ; if(matrix[2][1] i.e. false && !visited[1]) ; if(matrix[2][2] i.e. false && !visited[2]) ; if(matrix[2][3] i.e. true && !visited[3]) ; if(matrix[2][4] i.e. false && !visited[4]) ;  if(matrix[2][5] i.e. false && !visited[5])   |
+            // if(matrix[3][0] i.e. false && !visited[0]);  if(matrix[3][1] i.e. true && !visited[1]); if(matrix[3][2] i.e. true && !visited[2])  ; if(matrix[3][3] i.e. false && !visited[3]) ; if(matrix[3][4] i.e. true && !visited[4]) ; if(matrix[3][5] i.e. true && !visited[5])      |
+            // if(matrix[4][0] i.e. false && !visited[0]); if(matrix[4][1] i.e. false && !visited[1]); if(matrix[4][2] i.e. false && !visited[2]) ; if(matrix[4][3] i.e. true && !visited[3]) ; if(matrix[4][4] i.e. false && !visited[4]) ; if(matrix[4][5] i.e. false && !visited[5])     |
+            // if(matrix[5][0] i.e. false && !visited[0]); if(matrix[5][1] i.e. false && !visited[1]); if(matrix[5][2] i.e. false && !visited[2]) ; if(matrix[5][3] i.e. true && !visited[3]) ; if(matrix[5][4] i.e. false && !visited[4]) ; if(matrix[5][5] i.e. false && !visited[5])
             {
                 visited[neighbour] = true; 
-                // -; visited={true,true,...}; visited={true,true,true,...} ; visited={true,true,true,true,...} ; visited={true,true,true,true,true,...} ; visited={true,true,true,true,true,true} |
-                // -; -;
+                // -; visited={true,true,...}; visited={true,true,true,...} ; - ; - ; - ;                                   |
+                // -; -; -; visited={true, true, true, true,....} ; -; -;                                                   |
+                // -; -; -; -; -; -;                                                                                        |
+                // -; -; -; -; visited={true, true, true, true, true....} ; visited={true, true, true, true, true, true}    |
+                // -; -; -; -; -; -;                                                                                        |
+                // -; -; -; -; -; -;
                 q.push(neighbour);         
-                // -; q={1} ; q={1,2} ; q={1,2,3} ; q={1,2,3,4} ; q={1,2,3,4,5} |
-                // -; -;
+                // -; q={1} ; q={1,2} ; - ; - ; -;                                                                          |
+                // -; -; -; q={2,3} ; -; -;                                                                                 |
+                // -; -; -; -; -; -;                                                                                        |
+                // -; -; -; -; q={4}; q={4,5}                                                                               |
+                // -; -; -; -; -; -;                                                                                        |
+                // -; -; -; -; -; -;
             }
         }
     }
 
-    return result;
+    return result; //...... result={0,1,2,3,4,5}
 }
 
 /*
