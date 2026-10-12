@@ -16,10 +16,10 @@ public:
         std::vector<std::vector<int>> alist(n);
         createalist(alist, edges);
 
-        return dfs(alist, source, destination);
+        return find(alist, source, destination);
     }
 
-    bool dfs(std::vector<std::vector<int>> &graph, int source, int destination)
+    bool find(std::vector<std::vector<int>> &graph, int source, int destination)
     {
         bool result = false;
 
@@ -45,7 +45,7 @@ public:
                 if (i == x[0])
                 {
                     alist[i].push_back(x[1]);
-                    // graph is bidirectional so
+                    // graph is non-directed so push_back both ways
                     alist[x[1]].push_back(i);
                 }
             }
