@@ -267,6 +267,103 @@ vector<int> dfsMatrix(const vector<vector<int>> &matrix, int start)
     return result;
 }
 
+// mark a node as visited after you push it onto the stack,
+vector<int> dfsMatrixExplicitStack(const vector<vector<int>> &matrix, int start) //matrix=matrix, start=0
+{
+    int n = matrix.size(); // 6
+
+    vector<bool> visited(n, false); // visited={false, false, false, false, false, false}
+    vector<int> result; // result={ }
+    stack<int> s; // s = { } - grows to the right, the bigger number is the top. Index inapushiwa kwa stack kama neighbour but ikipoppiwa intatoka kama node.
+
+    s.push(start); // s = {0}
+    visited[start] = true; // visited = {1, false, false, false, false, false}
+
+    while (!s.empty()) 
+    // s={0}, visited = {1, false, false, false, false, false}  |    s={1, 2}, visited={1, 1, 1, false, false, false}   |   s={1,3}, visited={1, 1, 1, 1, false, false}     |    s={1,4,5}, visited={1, 1, 1, 1, 1, 1}  |   s={1,4}, visited={1, 1, 1, 1, 1, 1} |  s={1}, visited={1, 1, 1, 1, 1, 1} | s={ }, Xwhile, result={0,2,3,5,4,1}
+    {
+        int node = s.top(); // node=0; | node=2 | node=3 | node=5 | node=4 | node =1
+        s.pop(); // s ={ } | s = {1 } | s={1 } | s={1,4} | s{1} | s{ }
+
+        result.push_back(node); // result={0} | result={0,2} | result={0,2,3} | result={0,2,3,5} | result={0,2,3,5,4} | result={0,2,3,5,4,1}
+
+        for (int neighbour = 0; neighbour < n; neighbour++) 
+        // for(neighb=0, <6; ++), visited = {1, false, false, false, false, false};  for(neighb=1, <6; ++), visited = {1, false, false, false, false, false}; for(neighb=2, <6; ++), visited = {1, 1, false, false, false, false}   \
+        // for(neighb=3, <6; ++), visited = {1, 1, 1, false, false, false}; for(neighb=4, <6; ++), visited = {1, 1, 1, false, false, false}; for(neighb=5, <6; ++), visited = {1, 1, 1, false, false, false}; Xfor()                |
+        // for(neighb=0, <6, ++), visited = {1, 1, 1, false, false, false}; for(neighb=1, <6, ++), visited = {1, 1, 1, false, false, false}; for(neighb=2, <6, ++), visited = {1, 1, 1, false, false, false}                        \
+        // for(neighb=3, <6, ++), visited = {1, 1, 1, false, false, false}; for(neighb=4, <6, ++), visited = {1, 1, 1, 1, false, false}; for(neighb=5, <6, ++), visited = {1, 1, 1, 1, false, false}; Xfor()                        |
+        // for(neighb=0, <6,++), visited={1, 1, 1, 1, false, false}; for(neighb=1, <6,++), visited={1, 1, 1, 1, false, false}; for(neighb=2, <6,++), visited={1, 1, 1, 1, false, false};                                            \
+        // for(neighb=3, <6,++), visited={1, 1, 1, 1, false, false}; for(neighb=4, <6,++), visited={1, 1, 1, 1, false, false}; for(neighb=5, <6,++), visited={1, 1, 1, 1, false, false}; Xfor()                                     |
+        // for(neighb=0, <6,++), visited={1, 1, 1, 1, 1, 1}; for(neighb=1, <6,++), visited={1, 1, 1, 1, 1, 1}; for(neighb=2, <6,++), visited={1, 1, 1, 1, 1, 1}; for(neighb=3, <6,++), visited={1, 1, 1, 1, 1, 1}                   \
+        // for(neighb=4, <6,++), visited={1, 1, 1, 1, 1, 1}; for(neighb=5, <6,++), visited={1, 1, 1, 1, 1, 1}; Xfor()                                                                                                               |
+        // for(neighb=0, <6,++), visited={1, 1, 1, 1, 1, 1}; for(neighb=1, <6,++), visited={1, 1, 1, 1, 1, 1}; for(neighb=2, <6,++), visited={1, 1, 1, 1, 1, 1}; for(neighb=3, <6,++), visited={1, 1, 1, 1, 1, 1};                  \
+        // for(neighb=4, <6,++), visited={1, 1, 1, 1, 1, 1}; for(neighb=5, <6,++), visited={1, 1, 1, 1, 1, 1}; Xfor()                                                                                                               |
+        // for(neighb=0, <6,++), visited={1, 1, 1, 1, 1, 1}; for(neighb=1, <6,++), visited={1, 1, 1, 1, 1, 1}; for(neighb=2, <6,++), visited={1, 1, 1, 1, 1, 1}; for(neighb=3, <6,++), visited={1, 1, 1, 1, 1, 1};                  \
+        // for(neighb=4, <6,++), visited={1, 1, 1, 1, 1, 1}; for(neighb=5, <6,++), visited={1, 1, 1, 1, 1, 1};  Xfor()
+        {
+            if (matrix[node][neighbour] && !visited[neighbour]) 
+            // if(matrix[0][0] i.e. false && !visited[0]); if(matrix[0][1]i.e.true &&!visited[1]); if(matrix[0][2]i.e.true && !visited[2]); if(matrix[0][3]i.e.false && !visited[3]); if(matrix[0][4]i.e.false && !visited[4]); if(matrix[0][5]i.e.false && !visited[5])                |
+            // if(matrix[1][0])i.e.true && !visited[0]); if(matrix[1][1])i.e.false && !visited[1]); if(matrix[1][2])i.e. false && !visited[2]); if(matrix[1][3])i.e.true && !visited[3]);  if(matrix[1][4])i.e.false && !visited[4]); if(matrix[1][5])i.e.false && !visited[5])         |
+            // if(matrix[3][0]i.e.false && !visited[0]); if(matrix[3][1]i.e.true && !visited[1]); if(matrix[3][2]i.e.true && !visited[2]); if(matrix[3][3]i.e.false && !visited[3]); if(matrix[3][4]i.e.true && !visited[4]) ; if(matrix[3][5]i.e.true && !visited[5])                  |
+            // if(matrix[5][0]i.e.false && !visited[0]); if(matrix[5][1]i.e.false && !visited[1]); if(matrix[5][2]i.e.false && !visited[2]); if(matrix[5][3]i.e.true && !visited[3]); if(matrix[5][4]i.e.true && !visited[4]); if(matrix[5][5]i.e.true && !visited[5])                  |
+            // if(matrix[4][0]i.e.false && !visited[0]); if(matrix[4][1]i.e.false && !visited[1]); if(matrix[4][2]i.e.false && !visited[2]); if(matrix[4][3]i.e.true && !visited[3]); if(matrix[4][4]i.e.false && !visited[4]); if(matrix[4][5]i.e.false && !visited[5])                |
+            // if(matrix[5][0]i.e.false && !visited[0]); if(matrix[5][1]i.e.false && !visited[1]); if(matrix[5][2]i.e.false && !visited[2]); if(matrix[5][3]i.e.true && !visited[3]); if(matrix[5][4]i.e.false && !visited[0]); if(matrix[5][5]i.e.false && !visited[5])
+            {
+                visited[neighbour] = true; 
+                // -; visited = {1, 1, false, false, false, false}; visited={1, 1, 1, false, false, false}; -; -; -;    |
+                // -; -; -; visited={1, 1, 1, 1, false, false}; -; -;                                                   |
+                // -; -; -; -; visited={1, 1, 1, 1, 1, false}; visited={1, 1, 1, 1, 1, 1}                               |
+                // -; -; -; -; -; -;                                                                                    |
+                // -; -; -; -; -; -;                                                                                    |
+                // -; -; -; -; -; -;
+                s.push(neighbour); 
+                // -; s={ 1 }; s{ 1, 2}; -; -; -;       |
+                // -; -; -; s={1, 3} -; -;              |
+                // -; -; -; -; s={1, 4}; s={1,4,5}      |
+                // -; -; -; -; -; -;                    |
+                // -; -; -; -; -; -;
+                // -; -; -; -; -; -;
+            }
+        }
+    }
+
+    return result; // result={0,2,3,5,4,1}
+}
+
+// mark a node as visited when you pop it from the stack,
+vector<int> dfsMatrixExplicitStackButMarkVisitedAfterPoppingNodeFromStack(const vector<vector<int>> &matrix, int start){
+        int n = matrix.size();
+
+    vector<bool> visited(n, false);
+    vector<int> result;
+    stack<int> s;
+
+    s.push(start);
+
+    while (!s.empty())
+    {
+        int node = s.top();
+        s.pop();
+
+        if (visited[node])
+            continue;
+
+        visited[node] = true;
+        result.push_back(node);
+
+        // Push neighbours in reverse order.
+        for (int neighbour = n - 1; neighbour >= 0; neighbour--)
+        {
+            if (matrix[node][neighbour] && !visited[neighbour])
+            {
+                s.push(neighbour);
+            }
+        }
+    }
+
+    return result;
+}
+
 /*
     Adjacency List BFS. CORRECT ANNOTATION 24082026
 
@@ -466,9 +563,10 @@ int main()
 
     printTraversal("BFS Matrix", bfsMatrix(matrix, start));
     printTraversal("DFS Matrix", dfsMatrix(matrix, start));
+    printTraversal("DFS Matrix with Explicit stack, mark node visited after push to stack", dfsMatrixExplicitStack(matrix, start));
+    printTraversal("DFS Matrix with Explicit stack But Mark Node as visited after you pop it from stack", dfsMatrixExplicitStackButMarkVisitedAfterPoppingNodeFromStack(matrix, start));
     printTraversal("BFS List", bfsList(graph, start));
     printTraversal("DFS List", dfsList(graph, start));
-    printTraversal("DFS List But Using Explicit Stack: ", dfsListButStackBased(graph, start));
 
     /*
 
@@ -481,10 +579,13 @@ int main()
     4 -> 3
     5 -> 3
 
-    BFS Matrix : 0 1 2 3 4 5
-    DFS Matrix : 0 1 3 2 4 5
-    BFS List : 0 1 2 3 4 5
-    DFS List : 0 1 3 2 4 5
+    BFS Matrix : 0 1 2 3 4 5 
+    DFS Matrix : 0 1 3 2 4 5 
+    DFS Matrix with Explicit stack, mark node visited after push to stack : 0 2 3 5 4 1 
+    DFS Matrix with Explicit stack But Mark Node as visited after you pop it from stack : 0 1 3 2 4 5 
+    BFS List : 0 1 2 3 4 5 
+    DFS List : 0 1 3 2 4 5 
+
 
     Note:  0 1 3 4 5 2 and 0 1 3 5 4 2 are also valid DFS traversals. But this program is deterministic. It always checks neighbors in increasing order 0,1,2,3,4,5 with the line `for (int neighbor = 0; neighbor < n; neighbor++)` hence the results.
 

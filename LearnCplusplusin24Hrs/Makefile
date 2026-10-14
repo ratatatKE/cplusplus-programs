@@ -22,6 +22,7 @@ FILES = $(ASM_DIR)/BoxMaker.S $(EXEC_DIR)/BoxMaker $(ASM_DIR)/BoxMakerdemangled.
 		$(EXEC_DIR)/438.FindAllAnagramsInAString $(ASM_DIR)/438.FindAllAnagramsInAString.S \
 		$(EXEC_DIR)/A.Bari.380.LetsCodeGraphDFSandBFS $(ASM_DIR)/A.Bari.380.LetsCodeGraphDFSandBFS.S \
 		$(EXEC_DIR)/LC.1971.FindifPathExistsinGraph $(ASM_DIR)/LC.1971.FindifPathExistsinGraph.S \
+		$(EXEC_DIR)/LC.200.NumberOfIslands $(ASM_DIR)/LC.200.NumberOfIslands.S \
 
 # The .DELETE_ON_ERROR: target tells Make to delete the target files if the recipe fails ensuring that we don't end up with partial or corrupted files
 .DELETE_ON_ERROR:
@@ -185,6 +186,11 @@ $(ASM_DIR)/LC.1971.FindifPathExistsinGraph.S: LeetcodeGrind/Graphs/LC.1971.Findi
 	-o "$@"
 
 
+$(ASM_DIR)/LC.200.NumberOfIslands.S: LeetcodeGrind/Graphs/LC.200.NumberOfIslands.cpp | $(ASM_DIR)
+	g++ -std=c++20 -S \
+	-O0	\
+	"$<" \
+	-o "$@"
 
 
 
@@ -262,6 +268,12 @@ $(ASM_DIR)/A.Bari.380.LetsCodeGraphDFSandBFSdemangled.S: $(ASM_DIR)/A.Bari.380.L
 
 $(ASM_DIR)/LC.1971.FindifPathExistsinGraphdemangled.S: $(ASM_DIR)/LC.1971.FindifPathExistsinGraph.S
 	c++filt < "$<" > "$@"
+	c++filt < "$<" > "$@"
+
+$(ASM_DIR)/LC.200.NumberOfIslandsdemangled.S: $(ASM_DIR)/LC.200.NumberOfIslands.S
+	c++filt < "$<" > "$@"
+
+
 
 
 
@@ -343,6 +355,10 @@ $(EXEC_DIR)/A.Bari.380.LetsCodeGraphDFSandBFS: LeetcodeGrind/Graphs/A.Bari.380.L
 
 $(EXEC_DIR)/LC.1971.FindifPathExistsinGraph: LeetcodeGrind/Graphs/LC.1971.FindifPathExistsinGraph.cpp | $(EXEC_DIR)
 	g++ -std=c++14 -g "$<" -o "$@"
+	g++ -std=c++14 -g "$<" -o "$@"
+
+$(EXEC_DIR)/LC.200.NumberOfIslands: LeetcodeGrind/Graphs/LC.200.NumberOfIslands.cpp | $(EXEC_DIR)
+	g++ -std=c++20 -g "$<" -o "$@"
 
 
 # Directory PART, created ONCE, no need to keep recreating.
@@ -376,6 +392,7 @@ FILES_TO_CLEAN = $(ASM_DIR)/BoxMaker.S $(EXEC_DIR)/BoxMaker $(ASM_DIR)/BoxMakerd
 					$(ASM_DIR)/438.FindAllAnagramsInAString.S $(EXEC_DIR)/438.FindAllAnagramsInAString $(ASM_DIR)/438.FindAllAnagramsInAStringdemangled.S \
 					$(ASM_DIR)/A.Bari.380.LetsCodeGraphDFSandBFS.S $(EXEC_DIR)/A.Bari.380.LetsCodeGraphDFSandBFS $(ASM_DIR)/A.Bari.380.LetsCodeGraphDFSandBFSdemangled.S \
 					$(ASM_DIR)/LC.1971.FindifPathExistsinGraph.S $(EXEC_DIR)/LC.1971.FindifPathExistsinGraph $(ASM_DIR)/LC.1971.FindifPathExistsinGraphdemangled.S \
+					$(ASM_DIR)/LC.200.NumberOfIslands.S $(EXEC_DIR)/LC.200.NumberOfIslands $(ASM_DIR)/LC.200.NumberOfIslandsdemangled.S \
 
 # Also, consider adding a .PHONY directive for the clean target to prevent potential issues if a file named clean exists in your directory
 .PHONY: clean
