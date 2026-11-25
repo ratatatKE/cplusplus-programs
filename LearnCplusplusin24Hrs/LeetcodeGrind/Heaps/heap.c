@@ -36,7 +36,7 @@ int delete(int arr[], int index_to_store_root_after_deletion){
         // if j<index_to_store_root_after_deletion & right_child_of_new_parrent > left_child_of_new_parent
         // Notice we don't chare about left_child > right_child because in a BST the right will always be GREATER
         if(j < index_to_store_root_after_deletion-1 && arr[j+1] > arr[j]){           
-            j = j + 1;                                              // new_parent's_left_child = right_child_of_j since it's greater
+            j = j + 1;                                              // new_parent's_left_child = right_child_of_j since the latter's greater
         }
 
         if(arr[i] < arr[j]){                                        // if new_parent < new+parent's_left child then swap them. (We only care about the left child alone since we just modified it).
